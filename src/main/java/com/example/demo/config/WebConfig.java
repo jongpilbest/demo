@@ -1,5 +1,10 @@
 package com.example.demo.config;
 
+import com.example.demo.Filter.LogFilter;
+import jakarta.servlet.DispatcherType;
+import jakarta.servlet.Filter;
+import org.springframework.boot.web.servlet.FilterRegistrationBean;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
@@ -7,13 +12,26 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 @Configuration
 public class WebConfig implements WebMvcConfigurer {
 
-    @Override
+    @Override // @Bean은 지우고, 오버라이드만 남겨둡니다.
     public void addCorsMappings(CorsRegistry registry) {
-        registry.addMapping("/**") // 모든 API 경로에 대해
-                .allowedOrigins("http://localhost:5173") // 리액트 주소 허용
-                .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS") // OPTIONS 포함 필수!
-                .allowedHeaders("*")
-                .allowCredentials(true)
-                .maxAge(3600); // 브라우저가 CORS 검사 결과를 1시간 동안 기억하게 함
+        registry.addMapping("/**")
+                .allowedOrigins("http://localhost:5173")
+                .allowCredentials(true);
+
     }
+
+    @Bean
+    public FilterRegistrationBean logFilter() {
+        FilterRegistrationBean<Filter> filterRegistrationBean = new
+                FilterRegistrationBean<>();
+        filterRegistrationBean.setFilter(new LogFilter());
+        filterRegistrationBean.setOrder(1);
+        filterRegistrationBean.addUrlPatterns("/*");
+        //여기 부분이 중요하다는데 setDispatchTypes 이 요청 받을때만 한다는건가?
+        filterRegistrationBean.setDispatcherTypes(DispatcherType.REQUEST,
+                DispatcherType.ERROR);
+
+        return filterRegistrationBean;
+    }
+
 }

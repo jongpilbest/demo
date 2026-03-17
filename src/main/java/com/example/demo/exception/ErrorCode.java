@@ -1,4 +1,4 @@
-package com.example.demo.service;
+package com.example.demo.exception;
 
 public enum ErrorCode {
     // 1. 여기서 상수들이 생성자를 호출하며 "나 이런 데이터 들고 있을게!"라고 선언함

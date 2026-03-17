@@ -2,6 +2,9 @@ package com.example.demo.service;
 
 import com.example.demo.entity.Member;
 import com.example.demo.entity.Q_A;
+import com.example.demo.exception.CustomException;
+import com.example.demo.exception.ErrorCode;
+import com.example.demo.exception.MemberNotFoundException;
 import com.example.demo.repository.MemberRepository;
 import com.example.demo.repository.Q_ARepository;
 import jakarta.transaction.Transactional;
@@ -68,6 +71,25 @@ public class QAService {
         }
     }
 
-    // 3. 관리자 권환있는애가 답변 응답하면 해당 게시물에 답변 달아주는코드
+    // 해당 게시물 삭제해줘
+    public boolean DeleteForm (Long id) {
+
+        try {
+            Qarepository.deleteById(id);
+            return true;
+
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
+
+    // admin 사용자가 answer_state 가 false 인거만 제공헤줘
+
+
+    public List<Q_A> Send_is_Not_answer_state(){
+        List<Q_A> qaList = Qarepository.findByAnswerStateFalse();
+        return qaList;
+    }
 
 }

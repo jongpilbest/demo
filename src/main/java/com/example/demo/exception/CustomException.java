@@ -1,4 +1,4 @@
-package com.example.demo.service;
+package com.example.demo.exception;
 
 
 // 에러 코드임을 spring 에게 알려주기 위해서 excepiton 형태를 하나 만듬

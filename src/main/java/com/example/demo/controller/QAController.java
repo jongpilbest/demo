@@ -3,16 +3,19 @@ package com.example.demo.controller;
 import com.example.demo.dto.Qa_Admn;
 import com.example.demo.entity.Member;
 import com.example.demo.entity.Q_A;
+import com.example.demo.exception.MemberNotFoundException;
 import com.example.demo.jwt.JwtProvider;
 import com.example.demo.repository.MemberRepository;
 import com.example.demo.service.QAService;
 import com.example.demo.jwt.JwtProvider;
+import jakarta.persistence.Id;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import com.example.demo.dto.LoginRequest;
 
 import java.net.http.HttpResponse;
+import java.util.HashMap;
 import java.util.List;
 import jakarta.servlet.http.HttpServletResponse;
 import java.util.Map;
@@ -35,7 +38,7 @@ public class QAController {
 
         List<Q_A> list =  qaService.ALlForm_data();
         if(list.isEmpty()){
-            throw new RuntimeException("공개 문의가 없습니다.");
+            throw new MemberNotFoundException("공개 문의가 없습니다.");
         }
 
         return list;
@@ -89,4 +92,37 @@ public class QAController {
     }
 
 
+    @DeleteMapping("/delete")
+    public ResponseEntity<?> deleteForm(@RequestParam("id") Long id ){
+        // 여기 아이디 받아서 그 아이디 삭제해
+        boolean status= qaService.DeleteForm(id);
+        if(!status) {
+            throw new MemberNotFoundException("삭제하는데 문제가 발생하였습니다. ");
+        }
+             return ResponseEntity.ok( // 200 OK
+                Map.of(
+                        "success", true,
+                        "message", "답변 삭제가 완료 됐습니다.."
+                )
+        );
+
+    }
+    @GetMapping("/IsnotAnswerstate")
+    public ResponseEntity<?> IsnotAnswerState() {
+        // 1. 끝에 세미콜론(;)을 꼭 찍으세요!
+        List<Q_A> isnotanswerstate = qaService.Send_is_Not_answer_state();
+
+        // 2. Map.of 대신 담을 바구니를 만듭니다.
+        // 만약 isnotanswerstate가 null이면 Map.of에서 에러가 날 수 있으니 주의!
+        Map<String, Object> response = new HashMap<>();
+        response.put("success", true);
+        response.put("data", isnotanswerstate);
+
+        return ResponseEntity.ok(response);
+    }
+
+
+
+
 }
+

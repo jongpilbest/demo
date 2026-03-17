@@ -1,0 +1,59 @@
+
+
+import { api } from "./client";
+
+import {type  QAItem,type  AnswerResponse , type CreateQAInput} from "@/type/Qa/Qa_type";
+
+
+// get으로 요청할때. 
+export async function fetctGetQAList(): Promise<QAItem[]> {
+  const res = await api.get("/api/form/qa_list", { withCredentials: true });
+  return res.data;
+}
+
+// get으로 요청할때. 
+export async function fetctAllnonPrivateGetQAList(): Promise<QAItem[]> {
+  const res = await api.get("/api/form/All_qa_list", { withCredentials: true });
+  return res.data;
+}
+
+
+type AnswerQAParams = {
+  id: number;
+  plainText: string;
+};
+
+// 관리자가 답변 보내는 함수.
+export async function Answer_QA_Admin({id,plainText}:AnswerQAParams):Promise<AnswerResponse>
+{
+  const res= await api.post("/api/form/answer", { id:id , answer: plainText }) 
+  return res.data;
+
+}
+
+
+//============================================================================
+// 답변 삭제하기
+
+export async function Delete_QA_Admin(id:number):Promise<AnswerResponse>
+{
+  const res= await api.delete(`/api/form/delete?id=${id}`) 
+  return res.data;
+
+}
+
+
+
+
+export async function fetchPostQA(payload:CreateQAInput): Promise<void>{
+    const res = await api.post("/api/form/new_form", payload, { withCredentials: true });
+   return res.data;
+}
+
+
+////#--------------------- admin 사용자가 isnotanswerstate 만 원할때
+
+export async function fetchAdminIsnotanswerSTate():Promise<QAItem[]>{
+  const res= await api.get('/api/form/IsnotAnswerstate')
+  return res.data.data;
+}

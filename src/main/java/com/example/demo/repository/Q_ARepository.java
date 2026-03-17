@@ -8,5 +8,6 @@ import java.util.List;
 public interface Q_ARepository  extends JpaRepository<Q_A, Long> {
     List<Q_A> findByMemberId(Long memberId);
     List<Q_A> findByIsPrivateFalse();
+    List<Q_A> findByAnswerStateFalse();
 
 }
