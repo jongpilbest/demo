@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from 'react';
 import { Button } from '@/components/ui/button';
 import { Menu, X } from 'lucide-react';
-import logo from '../../public/assets/Companylogo.svg'
+
 import { useNavigate } from "react-router-dom";
 import { useAuth } from '@/context/AuthContext';
 import { User } from 'lucide-react';
@@ -61,7 +61,7 @@ export default function Header() {
           <a href="/" className="flex items-center gap-2">
             <img
               className='h-5'
-              src={logo}></img>
+              src="/assets/Companylogo.svg"></img>
           </a>
 
           {/* Desktop Navigation 

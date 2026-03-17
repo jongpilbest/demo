@@ -19,14 +19,14 @@ export default function FeaturesComponents({
 
   return (
     <div
-      onClick={() => setSelectedFeature(feature)}
+
       style={
         feature.backgroundImage
           ? {
-              backgroundImage: `url(${feature.backgroundImage})`,
-              backgroundSize: "cover",
-              backgroundPosition: "center",
-            }
+            backgroundImage: `url(${feature.backgroundImage})`,
+            backgroundSize: "cover",
+            backgroundPosition: "center",
+          }
           : undefined
       }
       className={`
@@ -61,14 +61,14 @@ export default function FeaturesComponents({
       />
 
       <div className="relative z-10 flex flex-col h-full">
-        
+
         {/* 상단 텍스트 */}
         <div>
           <div className="flex items-start justify-between mb-3 border-b border-gray-200 pb-4 ">
             <h3 className="text-lg sm:text-xl font-bold  text-gray-900">
               {feature.title}
             </h3>
-          
+
             <button
               onClick={(e) => {
                 e.stopPropagation();
@@ -79,7 +79,7 @@ export default function FeaturesComponents({
               <Maximize2 className="w-4 h-4 text-gray-400" />
             </button>
           </div>
-  
+
           <p className="text-sm sm:text-base  pt-1 text-gray-600 leading-relaxed break-keep">
             {feature.description}
           </p>
@@ -101,10 +101,9 @@ export default function FeaturesComponents({
              
                    
                 /* 💻 데스크탑 */
-                ${
-                  isLarge
-                    ? "lg:h-[500px]"
-                    : isMedium
+                ${isLarge
+                  ? "lg:h-[500px]"
+                  : isMedium
                     ? "lg:h-[200px]"
                     : "lg:h-[500px]"
                 }

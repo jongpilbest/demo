@@ -1,0 +1,87 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 520" width="100%" height="100%" role="img" aria-label="시계열 센서 데이터 차트">
+  <!-- Chart area (transparent background) -->
+  <defs>
+    <clipPath id="clip">
+      <rect x="90" y="60" width="760" height="320" rx="0" ry="0"></rect>
+    </clipPath>
+  </defs>
+
+  <!-- Axes -->
+  <line x1="90" y1="60" x2="90" y2="380" stroke="#9AA4B2" stroke-width="2"></line>
+  <line x1="90" y1="380" x2="850" y2="380" stroke="#9AA4B2" stroke-width="2"></line>
+
+  <!-- Gridlines -->
+  <g stroke="#E6EAF0" stroke-width="1">
+    <line x1="90" y1="100" x2="850" y2="100"></line>
+    <line x1="90" y1="140" x2="850" y2="140"></line>
+    <line x1="90" y1="180" x2="850" y2="180"></line>
+    <line x1="90" y1="220" x2="850" y2="220"></line>
+    <line x1="90" y1="260" x2="850" y2="260"></line>
+    <line x1="90" y1="300" x2="850" y2="300"></line>
+    <line x1="90" y1="340" x2="850" y2="340"></line>
+  </g>
+
+  <!-- Y ticks / labels -->
+  <g fill="#667085" font-family="Pretendard, Apple SD Gothic Neo, Noto Sans KR, system-ui, sans-serif" font-size="20">
+    <text x="55" y="385" text-anchor="end">-10</text>
+    <text x="55" y="305" text-anchor="end">0</text>
+    <text x="55" y="225" text-anchor="end">10</text>
+    <text x="55" y="145" text-anchor="end">20</text>
+    <text x="55" y="65" text-anchor="end">30</text>
+  </g>
+
+  <!-- Y axis label -->
+  <text x="24" y="230" transform="rotate(-90 24 230)" fill="#667085" font-family="Pretendard, Apple SD Gothic Neo, Noto Sans KR, system-ui, sans-serif" font-size="22" font-weight="600">(kWh)</text>
+
+  <!-- Threshold lines -->
+  <line x1="90" y1="140" x2="850" y2="140" stroke="#22C55E" stroke-width="3" stroke-dasharray="10 8"></line>
+  <line x1="90" y1="300" x2="850" y2="300" stroke="#EF4444" stroke-width="3" stroke-dasharray="10 8"></line>
+
+  <!-- Data line + points -->
+  <g clip-path="url(#clip)">
+    <!-- line -->
+    <path d="
+      M 110 210
+      C 160 190, 190 205, 230 195
+      S 310 215, 350 205
+      S 430 225, 470 215
+      S 550 245, 590 235
+      S 670 265, 710 255
+      S 790 285, 830 275
+    " fill="none" stroke="#2563EB" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"></path>
+
+    <!-- points -->
+    <g>
+      <circle cx="110" cy="210" r="10" fill="#2563EB" stroke="#FFFFFF" stroke-width="4"></circle>
+      <circle cx="230" cy="195" r="10" fill="#2563EB" stroke="#FFFFFF" stroke-width="4"></circle>
+      <circle cx="350" cy="205" r="10" fill="#2563EB" stroke="#FFFFFF" stroke-width="4"></circle>
+      <circle cx="470" cy="215" r="10" fill="#2563EB" stroke="#FFFFFF" stroke-width="4"></circle>
+      <circle cx="590" cy="235" r="10" fill="#2563EB" stroke="#FFFFFF" stroke-width="4"></circle>
+      <circle cx="710" cy="255" r="10" fill="#2563EB" stroke="#FFFFFF" stroke-width="4"></circle>
+      <circle cx="830" cy="275" r="10" fill="#2563EB" stroke="#FFFFFF" stroke-width="4"></circle>
+    </g>
+  </g>
+
+  <!-- X ticks / labels -->
+  <g fill="#667085" font-family="Pretendard, Apple SD Gothic Neo, Noto Sans KR, system-ui, sans-serif" font-size="20">
+    <text x="140" y="430" text-anchor="middle">01/11 11:00</text>
+    <text x="380" y="430" text-anchor="middle">01/11 11:30</text>
+    <text x="620" y="430" text-anchor="middle">01/11 12:00</text>
+  </g>
+
+  <!-- Legend -->
+  <g font-family="Pretendard, Apple SD Gothic Neo, Noto Sans KR, system-ui, sans-serif" font-size="22" font-weight="700">
+    <!-- blue -->
+    <line x1="240" y1="485" x2="320" y2="485" stroke="#2563EB" stroke-width="6" stroke-linecap="round"></line>
+    <circle cx="280" cy="485" r="7" fill="#2563EB" stroke="#FFFFFF" stroke-width="3"></circle>
+    <text x="340" y="492" fill="#111827">전력량</text>
+
+    <!-- green -->
+    <line x1="440" y1="485" x2="520" y2="485" stroke="#22C55E" stroke-width="5" stroke-dasharray="10 8"></line>
+    <text x="540" y="492" fill="#111827">허용기준</text>
+
+    <!-- red -->
+    <line x1="640" y1="485" x2="720" y2="485" stroke="#EF4444" stroke-width="5" stroke-dasharray="10 8"></line>
+    <text x="740" y="492" fill="#111827">제한기준</text>
+  </g>
+</svg>

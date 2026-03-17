@@ -20,6 +20,11 @@ configurations {
     }
 }
 
+bootJar {
+    archiveFileName = 'app.jar'  // Dockerfile과 일치시키기 위해
+}
+
+
 repositories {
     mavenCentral()
 }

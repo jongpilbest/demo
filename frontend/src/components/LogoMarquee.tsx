@@ -1,12 +1,4 @@
 import { useRef, useEffect, useState } from 'react';
-import partner_company1 from '../../public/assets/parnerlogo_1-BW_R_aWv.svg'
-import partner_company2 from '../../public/assets/parnerlogo_2-CxF7em_o.svg'
-
-import partner_company3 from '../../public/assets/parnerlogo_3-BaTghd4M.svg'
-import partner_company4 from '../../public/assets/parnerlogo_4-DSyE2Hd5.svg'
-
-
-
 
 
 interface Logo {
@@ -18,25 +10,25 @@ const logos: Logo[] = [
   {
     name: '한국가스공사',
     svg: (
-     <img src={partner_company1}></img>
+      <img src="/assets/parnerlogo_1-BW_R_aWv.svg"></img>
     ),
   },
   {
     name: '국토교통부',
-     svg: (
-     <img src={partner_company2}></img>
+    svg: (
+      <img src="/assets/parnerlogo_2-CxF7em_o.svg"></img>
     ),
   },
   {
     name: '한국도로공사',
-      svg: (
-     <img src={partner_company3}></img>
+    svg: (
+      <img src="/assets/parnerlogo_3-BaTghd4M.svg"></img>
     ),
   },
   {
     name: '행정안전부',
     svg: (
-     <img src={partner_company4}></img>
+      <img src="/assets/parnerlogo_4-DSyE2Hd5.svg"></img>
     ),
   },
 ];
@@ -76,12 +68,12 @@ sm:py-8
           신뢰할 수 있는 파트너사
         </p>
       </div>
-      
+
       <div className="relative">
         {/* Left fade */}
-     
+
         {/* Marquee container */}
-        <div 
+        <div
           className={`flex gap-14 ${isVisible ? 'animate-marquee' : ''}`}
           style={{
             width: 'fit-content',
