@@ -1,4 +1,4 @@
-import MyPage from "./MyPage";
+import MyPage from "./Mypage";
 import { useAuth } from "@/context/AuthContext";
 import { useQAListQuery } from "@/query/useQAquery"; // 유저용 개별 데이터
 import Form_Same_Component from "../Q_A/Form_Component";

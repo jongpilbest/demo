@@ -1,4 +1,4 @@
-import MyPage from "./MyPage";
+import MyPage from "./Mypage";
 import { useAuth } from "@/context/AuthContext";
 import { useISNotANswerState } from "@/query/useQAquery";
 import Form_Same_Component from "../Q_A/Form_Component";

@@ -1,7 +1,6 @@
 import React, { useMemo, useState } from 'react';
 import ReactQuill from 'react-quill';
-import 'react-quill/dist/quill.snow.css'; // 스타일 시트 잊지 마세요!
-import { EventBus } from '../../watcher/EventBus'
+import 'react-quill/dist/quill.snow.css'; // 스타일 시트 잊지 마세요!'
 import { useAdminQAQuery } from '@/query/useQAquery';
 // 1. Props 타입 정의
 interface AdminProps {

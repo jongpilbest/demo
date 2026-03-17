@@ -1,0 +1,27 @@
+# node_modules (가장 중요 ⭐ 절대 안 올라가게 막음)
+node_modules/
+/node_modules
+
+# 빌드 결과물 (서버에서 빌드할 거니까 안 올려도 됨)
+dist/
+dist-ssr/
+build/
+
+# 로그 파일
+logs
+*.log
+npm-debug.log*
+
+# 환경 변수 파일 (보안을 위해 깃허브에 올리지 않음)
+.env
+.env.*
+!.env.example
+
+# 에디터 설정 파일
+.vscode/
+.idea/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?

@@ -6,8 +6,7 @@ import { useNavigate } from "react-router-dom";
 import { useAuth } from '@/context/AuthContext';
 import { User } from 'lucide-react';
 import { useOnClickOutside } from '@/UseHook/UseonclickOutside';
-import { EventBus } from '../watcher/EventBus'
-
+import { EventBus } from '../watcher/eventBus';
 
 
 export default function Header() {
