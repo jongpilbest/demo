@@ -10,10 +10,11 @@ public class WebConfig implements WebMvcConfigurer {
     @Override
     public void addCorsMappings(CorsRegistry registry) {
         registry.addMapping("/**")
-            .allowedOrigins(
-                "http://localhost:5173",
-                "http://1.201.125.47"
-            )
+                .allowedOrigins(
+                        "http://localhost:5173",
+                        "https://safesignal.cloud",
+                        "https://www.safesignal.cloud"
+                )
             .allowedMethods("GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS")
             .allowedHeaders("*")
             .allowCredentials(true);
