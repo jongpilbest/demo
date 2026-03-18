@@ -20,7 +20,7 @@ services:
   backend:
     build: .
     expose:
-      - "8085"          # ← ports 대신 expose로 변경 (외부 노출 X)
+      - "8085" # ← ports 대신 expose로 변경 (외부 노출 X)
     depends_on:
       db:
         condition: service_healthy
@@ -28,11 +28,12 @@ services:
       SPRING_DATASOURCE_URL: jdbc:mariadb://db:3306/safesignal_website
       SPRING_DATASOURCE_USERNAME: asincnt
       SPRING_DATASOURCE_PASSWORD: asincnt1013
+      JAVA_TOOL_OPTIONS: "-Xms256m -Xmx1g -XX:+UseG1GC"
 
   frontend:
     build: ./frontend
     ports:
-      - "80:80"         # ← 3000:80 → 80:80으로 변경
+      - "80:80" # ← 3000:80 → 80:80으로 변경
     depends_on:
       - backend
 
