@@ -23,7 +23,6 @@ import org.springframework.http.ResponseEntity;
 @RestController
 @RequestMapping("/api/user")
 @RequiredArgsConstructor
-@CrossOrigin(origins = "http://localhost:5173",allowCredentials = "true") //
 @Slf4j
 public class UserPermission {
 

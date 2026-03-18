@@ -22,7 +22,7 @@ import org.springframework.http.ResponseEntity;
 @RestController
 @RequestMapping("/api/members")
 @RequiredArgsConstructor
-@CrossOrigin(origins = "http://localhost:5173",allowCredentials = "true") // 리엑트 로컬에서 오는 거 허용하겠다는 의미
+
 public class MemberController {
 
     private final MemberService memberService;

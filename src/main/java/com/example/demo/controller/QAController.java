@@ -21,11 +21,8 @@ import jakarta.servlet.http.HttpServletResponse;
 import java.util.Map;
 import org.springframework.http.ResponseEntity;
 @RestController
-
 @RequestMapping("/api/form")
 @RequiredArgsConstructor
-@CrossOrigin(origins = "http://localhost:5173",allowCredentials = "true") //
-
 public class QAController {
 
    private final QAService qaService;
