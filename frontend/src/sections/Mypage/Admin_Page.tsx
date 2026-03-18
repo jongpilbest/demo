@@ -25,6 +25,7 @@ export default function Admin_Page() {
 
       {/* 3. 하단 리스트 */}
       <Form_Same_Component
+        key={"관리자작성"}
         Create_answer_state={false}
         text={"답변이 필요한 문의사항"}
         data={data} />

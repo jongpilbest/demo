@@ -3,7 +3,7 @@ import type { QAItem } from '@/type/Qa/Qa_type';
 import React from 'react'
 import { useNavigate } from 'react-router-dom'
 import FormComponent from '@/components/FormComponent';
-export default function Form_Same_Component({ data, text, Create_answer_state }: { data: QAItem[], text?: string, Create_answer_state: boolean }) {
+export default function Form_Same_Component({ data, text, Create_answer_state, key }: { data: QAItem[], text?: string, Create_answer_state: boolean }) {
 
   const navigate = useNavigate();
   const { user } = useAuth();
@@ -64,7 +64,7 @@ export default function Form_Same_Component({ data, text, Create_answer_state }:
 
       {/* 리스트 */}
       {data.length > 0 && data.map((item, index) => (
-        <FormComponent item={item} keyname={`form-${index}`}></FormComponent>
+        <FormComponent item={item} keyname={`form-${index}-${key}`}></FormComponent>
 
       ))}
     </div>

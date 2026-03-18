@@ -26,6 +26,7 @@ export default function User_Page() {
       />
 
       <Form_Same_Component
+        key="일반유저문의사항"
         text={"새로운 문의사항과 답변"}
         data={new_data}
         Create_answer_state={true}
@@ -33,6 +34,7 @@ export default function User_Page() {
       <div className=" py-5 "></div>
 
       <Form_Same_Component
+        key="일반유저기존문의사항"
         text={"기존 문의사항과 답변"}
         data={old_data}
         Create_answer_state={false}

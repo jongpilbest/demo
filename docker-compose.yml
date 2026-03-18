@@ -1,19 +1,44 @@
 version: '3.8'
 
 services:
+  db:
+    image: mariadb:10.6
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: safesignal_website
+      MYSQL_USER: asincnt
+      MYSQL_PASSWORD: asincnt1013
+    ports:
+      - "3306:3306"
+    volumes:
+      - db_data:/var/lib/mysql
+      - ./db/init.sql:/docker-entrypoint-initdb.d/init.sql
+    healthcheck:
+      test: [ "CMD", "mysqladmin", "ping", "-h", "localhost", "-proot" ]
+      timeout: 20s
+      retries: 10
+
   backend:
     build: .
-    expose:
-      - "8085"
+    ports:
+      - "8085:8085"
+    depends_on:
+      db:
+        condition: service_healthy
     environment:
-      SPRING_DATASOURCE_URL: jdbc:mariadb://114.202.187.179:3306/safesignal_website
+      SPRING_DATASOURCE_URL: jdbc:mariadb://db:3306/safesignal_website
       SPRING_DATASOURCE_USERNAME: asincnt
       SPRING_DATASOURCE_PASSWORD: asincnt1013
-      JAVA_TOOL_OPTIONS: "-Xms128m -Xmx384m -XX:+UseG1GC"
 
   frontend:
     build: ./frontend
     ports:
       - "80:80"
+      - "443:443"
+    volumes:
+      - /etc/letsencrypt:/etc/letsencrypt:ro
     depends_on:
       - backend
+
+volumes:
+  db_data:

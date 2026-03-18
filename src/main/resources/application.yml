@@ -8,7 +8,8 @@ spring:
     suffix: .html
 
   datasource:
-    url: jdbc:mariadb://114.202.187.179:3306/safesignal_website
+    url: jdbc:mariadb://db:3306/safesignal_website  # ← IP 대신 db로 변경
+    #url: jdbc:mariadb://114.202.187.179:3306/safesignal_website
     username: asincnt
     password: asincnt1013
     driver-class-name: org.mariadb.jdbc.Driver

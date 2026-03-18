@@ -42,6 +42,7 @@ export default function Q_A_Components() {
 
 
         <Form_Same_Component
+          key={"QA"}
           Create_answer_state={userRole === "ADMIN" ? false : true}
           data={data} ></Form_Same_Component>
 
