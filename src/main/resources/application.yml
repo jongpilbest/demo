@@ -26,8 +26,7 @@ server:
   port: 8085
 
 cors:
-  cors:
-    allowed-origins: "http://localhost:5173,https://safesignal.cloud,https://www.safesignal.cloud"
+    allowed-origins: "https://safesignal.cloud,https://www.safesignal.cloud"
 
 logging:
   level:
