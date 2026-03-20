@@ -1,6 +1,21 @@
 import React from 'react'
 
 export default function HeroSection() {
+
+
+
+  const handleDownload = () => {
+    const link = document.createElement("a");
+    link.href = "/assets/asin_brochure.pdf";
+    link.download = "asin_brochure.pdf";
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
+
+
+
+
     return (
 
         <section className="min-h-screen bg-orange-50 flex items-center pt-16 relative overflow-hidden">
@@ -37,7 +52,10 @@ export default function HeroSection() {
                                 </svg>
                             </button>
                         </a>
-                        <button className="bg-white text-slate-900 border border-slate-300 hover:border-slate-900 px-7 py-3.5 rounded-lg text-[15px] font-semibold transition-all">
+                        <button 
+                        
+                        onClick={handleDownload}
+                        className="bg-white text-slate-900 border border-slate-300 hover:border-slate-900 px-7 py-3.5 rounded-lg text-[15px] font-semibold transition-all">
                             브로셔 다운로드
                         </button>
                     </div>
@@ -61,7 +79,7 @@ export default function HeroSection() {
 
                 {/* RIGHT — Dashboard mockup */}
                 <div className="hidden lg:block relative p-8">
-                    <img src='/assets/Dell UltraSharp 5K Monitor 27_.svg' alt="Dashboard Mockup" />
+                    <img src='/assets/new_header.svg' alt="Dashboard Mockup" />
 
                 </div>
             </div>

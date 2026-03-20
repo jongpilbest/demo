@@ -14,8 +14,7 @@ export default function Footer() {
                         경기 시흥시 봉우재로 175번길 19<br />
                         아신빌딩 3층 [15047]<br />
                         <br />
-                        www.asincnt.com<br />
-                        www.safesignal.cloud
+                   
                     </p>
                 </div>
 

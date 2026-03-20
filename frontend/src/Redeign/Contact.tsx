@@ -21,7 +21,7 @@ export default function CtaSection() {
                 <button
                     onClick={() => navigate("/contact")}
                     className="flex items-center gap-2 bg-orange-500 hover:bg-orange-600 text-white px-8 py-3.5 rounded-lg text-[15px] font-semibold transition-all hover:-translate-y-0.5 hover:shadow-lg hover:shadow-orange-300/40">
-                    상담 신청
+                    문의하기 
                 </button>
             </div>
         </div>
