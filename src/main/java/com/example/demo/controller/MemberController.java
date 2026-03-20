@@ -59,7 +59,7 @@ public class MemberController {
 
     }
     // 회원가입
-    @PostMapping
+    @PostMapping("/singup")
     public ResponseEntity<Map<String, Object>> signup(@Valid @RequestBody Member member) {
         // 맴버 들어있는 repository 에서 , 존재하는 회원이 없는 경우
       memberService.InsertedMember(member);

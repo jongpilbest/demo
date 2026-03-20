@@ -59,15 +59,6 @@ export default function LogoMarquee() {
     <section className="py-5 sm:py-16 md:py-24 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 
     
     bg-white overflow-hidden " ref={containerRef}>
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-8">
-        <p className="text-center text-gray-500 text-lg font-medium tracking-wide uppercase 
-        
-        py-4 
-sm:py-8
-        ">
-          신뢰할 수 있는 파트너사
-        </p>
-      </div>
 
       <div className="relative">
         {/* Left fade */}
