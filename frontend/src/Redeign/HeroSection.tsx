@@ -44,8 +44,10 @@ export default function HeroSection() {
                     </p>
 
                     <div className="flex gap-3 flex-wrap mb-12">
-                        <a href="https://gs.safesignal.cloud/login" target="_blank" rel="noopener noreferrer">
-                            <button className="flex items-center gap-2 bg-orange-500 hover:bg-orange-600 text-white px-7 py-3.5 rounded-lg text-[15px] font-semibold transition-all hover:-translate-y-0.5 hover:shadow-lg hover:shadow-orange-300/40">
+                        <a  target="_blank" rel="noopener noreferrer">
+                            <button 
+                            onClick={()=>alert("준비중입니다.")}
+                            className="flex items-center gap-2 bg-orange-500 hover:bg-orange-600 text-white px-7 py-3.5 rounded-lg text-[15px] font-semibold transition-all hover:-translate-y-0.5 hover:shadow-lg hover:shadow-orange-300/40">
                                 데모 체험하기
                                 <svg width="14" height="14" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24">
                                     <path d="M5 12h14M12 5l7 7-7 7" />

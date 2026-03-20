@@ -47,7 +47,7 @@ lg:h-[700px]
                justify-center flex items-center">
                          <Button
                  onClick={() => {
-    window.location.href = "https://gs.safesignal.cloud/admin/home";
+   alert("준비중입니다.")
   }}
                  className="
 bg-[#1E2A5A]
