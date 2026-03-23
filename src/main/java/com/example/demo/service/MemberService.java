@@ -35,11 +35,15 @@ public class MemberService {
 
     /*아아디 중복 체크하는거 */
     public boolean verifyMemberExists(String username) {
-
+         
+        // 여기 아이디 있는 경우 . --> fasle 으로 내보내기 
         if (memberRepository.existsByUsername(username)) {
             log.info("중복 확인 요청된 username: [{}]", username);
             return false;
+
         }
+
+        // 아이디가 없는 경우 
         return true;
     }
 

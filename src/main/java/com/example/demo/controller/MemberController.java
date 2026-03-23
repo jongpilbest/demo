@@ -44,7 +44,7 @@ public class MemberController {
 
         if (!check) {
             // handleMemberNotFound(메서드)가 아니라 Exception(클래스)을 throw 합니다.
-            throw new MemberNotFoundException("아이디 '" + id + "'를 찾을 수 없습니다.");
+            throw new MemberNotFoundException("존재하는 아이디 입니다.");
         }
 
             // 200 OK: 성공적으로 사용 가능한 경우
