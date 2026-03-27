@@ -4,7 +4,7 @@ import { useState } from "react";
 import { BaseModal } from "./BaseModal";
 import {formatDate} from "@/lib/date_utils";
 import { ExternalLink, ChevronRight } from 'lucide-react';
-import  EditFormwrapper  from "../Mypage/EditFromWrapper";
+import  EditFormWrapper  from "../Mypage/EditFromWrapper";
 import EditInputRow from "../Mypage/EditInputRow";
 import { useEditUserMutation } from "@/query/useMemerQuery";
 import { useAuth } from "@/context/AuthContext";
@@ -147,7 +147,7 @@ const handleCancel = () => {
       </section>
     ) : (
       /* --- 실제 수정 폼 (인증 완료 시) --- */
-      <EditFormwrapper<{name:string, email:string}>
+      <EditFormWrapper<{name:string, email:string}>
         onSave={saveUpdateUser}
         onCancel={handleCancel}
       >
@@ -156,7 +156,7 @@ const handleCancel = () => {
         <EditInputRow label="이메일" name="email" value={user?.email} />
         <InfoRow label="회사" value={user?.company} />
         <InfoRow label="역할" value={user?.role?.roleName} />
-      </EditFormwrapper>
+      </EditFormWrapper>
     )}
   </>
 )}
