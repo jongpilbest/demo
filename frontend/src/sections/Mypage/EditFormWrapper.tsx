@@ -1,3 +1,5 @@
+import React from "react";
+
 interface EditFormWrapperProps<T> {
   title: string;
   onCancel: () => void;
@@ -5,6 +7,8 @@ interface EditFormWrapperProps<T> {
   children: React.ReactNode;
 }
 
+// 1. 선언부에서 export const를 떼고 일반 const로 만듭니다.
+// 2. <T,> 처럼 쉼표를 찍어야 TSX가 제네릭으로 인식합니다.
 const EditFormWrapper = <T extends Record<string, any>>({
   title,
   onCancel,
@@ -14,44 +18,24 @@ const EditFormWrapper = <T extends Record<string, any>>({
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-
     const formData = new FormData(e.currentTarget);
-
     const data = Object.fromEntries(formData.entries()) as T;
-
-    console.log(data);
-
     onSave(data);
   };
 
   return (
     <section className="bg-white rounded-lg mb-6 shadow-sm">
       <h2 className="text-lg font-bold text-gray-900 mb-6">{title}</h2>
-
       <form onSubmit={handleSubmit}>
-        <div className="space-y-4">
-          {children}
-        </div>
-
+        <div className="space-y-4">{children}</div>
         <div className="flex justify-end gap-2 mt-8">
-          <button
-            type="button"
-            onClick={onCancel}
-            className="px-10 py-2 text-sm border border-gray-300 rounded text-gray-600 hover:bg-gray-50 font-medium"
-          >
-            취소
-          </button>
-
-          <button
-            type="submit"
-            className="px-10 py-2 text-sm bg-[#1e7e34] text-white rounded hover:bg-green-700 font-medium"
-          >
-            변경
-          </button>
+          <button type="button" onClick={onCancel} className="...">취소</button>
+          <button type="submit" className="...">변경</button>
         </div>
       </form>
     </section>
   );
 };
 
-export default
+// 3. 마지막에 한 번만 깔끔하게 default로 내보냅니다.
+export default EditFormWrapper;
