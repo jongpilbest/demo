@@ -10,7 +10,7 @@ export default function Form_Same_Component({ data, text, Create_answer_state, g
   //createQna : User 만 사용할수 있다.
 
   // 데이터가 없을때 , 사용자에게 보여줄 화면
-
+  console.log(data)
 
 
   const IsUser = user?.role?.roleName == "USER" ? true : false;

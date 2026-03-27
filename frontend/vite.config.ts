@@ -9,7 +9,7 @@ export default defineConfig({
   server: {
     proxy: {
       '/api': {
-        target: 'http://backend:8085',  // 백엔드 포트
+        target: 'http://localhost:8085',  // 백엔드 포트
         changeOrigin: true,
       },
     },
