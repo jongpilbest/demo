@@ -17,8 +17,8 @@ spring:
 
   # 2. 데이터베이스 설정 (중요: db 서비스 이름 확인)
   datasource:
-    url: jdbc:mariadb://114.202.187.179:3306/safesignal_website
-    #url: jdbc:mariadb://db:3306/safesignal_website
+    #url: jdbc:mariadb://114.202.187.179:3306/safesignal_website
+    url: jdbc:mariadb://db:3306/safesignal_website
     username: asincnt
     password: asincnt1013
     driver-class-name: org.mariadb.jdbc.Driver
