@@ -5,7 +5,7 @@ import { BaseModal } from "./BaseModal";
 import {formatDate} from "@/lib/date_utils";
 import { ExternalLink, ChevronRight } from 'lucide-react';
 import { EditFormWrapper } from "../Mypage/EditFromWrapper";
-import EditInPutRow from "../Mypage/EditInPutRow";
+import EditInPutRow from "../Mypage/EditInputRow";
 import { useEditUserMutation } from "@/query/useMemerQuery";
 import { useAuth } from "@/context/AuthContext";
 import { useAlert } from "@/UseHook/useAlert";
