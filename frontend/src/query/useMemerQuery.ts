@@ -78,7 +78,7 @@ export function useRefreshTokenMutation() {
       // 
      
       setAccessToken(data.accessToken);
-      console.log("Token Refreshed Successfully");
+    
     },
     onError: (error) => {
       console.error("Refresh Token Expired or Invalid", error);

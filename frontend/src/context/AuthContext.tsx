@@ -122,7 +122,7 @@ export const AuthProvider = ({ children }: Props) => {
       
       // 2.  q refetch 함수를 이용해서 수동으로 체크해주는 방식으로 바꿔주기
       const { data } = await refetch();
-      console.log(data,'수정한거 되는지 확인좀 부탁')
+ 
 
       
       if (data?.user) {
@@ -147,7 +147,7 @@ export const AuthProvider = ({ children }: Props) => {
       
       // 로그인 성공 후 즉시 유저 정보 갱신  --> 로그인 페이지에게 사용자 정보를 제공함 .
      const data= await checkAuth();
-    console.log(data,'?2')
+
 
 
      return data;

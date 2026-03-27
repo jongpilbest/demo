@@ -36,7 +36,7 @@ const location = useLocation();
   // 2. 권한 체크 (requiredFeature가 있을 때만 실행)
   if (requiredFeature) {
     const hasAccess = hasPermission(requiredFeature, requiredPermission);
-     console.log('접근 되는지 확인좀',hasAccess)
+
     
    if (!hasAccess) {
   return (

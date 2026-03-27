@@ -31,7 +31,7 @@ export function useFormController<T extends Record<string, any>>(opts: {
   const submit = async () => {
   // 1. 제출 전 전체 검증 로직 + 중복 확인 이거 status 받아야됨. 
   const nextErrors = validate(values);
-  console.log(values,'에러 확인좀')
+
   
   setErrors(nextErrors);
   

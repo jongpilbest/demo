@@ -76,14 +76,14 @@ export const PermissionProvider = ({ children }: Props) => {
    try {
        // 사용자가 보내는 토큰으로 사용자의 권환 / user Type 을 확인한다. 
       setLoading(true);
-        console.log(getAccessToken(),'토큰이 안보이는거 같아')
+      
 
        const PermissionResponse = await api.get("/api/user/permission");
     
        if (PermissionResponse.status === 200) {
         // 응답을 잘 받은 경우에만 저장하는 로직
         const responseData = PermissionResponse.data;
-        console.log(responseData,'권환 조회 응답 데이터')
+       
       
         setUserPermissions(responseData.permissions);
         setuserRole(responseData.role);    

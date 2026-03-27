@@ -11,7 +11,7 @@ import AdminFormComponents from './AdminFormComponents';
 import type { QAItem } from '@/type/Qa/Qa_type';
 export default function Admin_Form({ item }: QAItem) {
 
-  console.log('접근권한 admin ')
+ 
 
   // user / admin 기능 분리는 했지만. . 해당 기능에 , admin 이 권환이 있는지 확인하는 곳
 

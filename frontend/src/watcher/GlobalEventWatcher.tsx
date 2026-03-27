@@ -15,7 +15,7 @@ export default function GlobalEventWatcher() {
   const location = useLocation();
  
   useEvent('login',()=>{
-    console.log(' 다른 탭에서 로그인을 감지하였습니다.') ;
+
    // 로그인이 감지 되었으니, 사용자의 정보를 다시 확인합니다. 
     checkAuth()
 
@@ -30,7 +30,7 @@ export default function GlobalEventWatcher() {
   })
 
     useEvent('logout',()=>{
-    console.log(' 다른 탭에서 로그아웃을 감지하였습니다.') ;
+  
     // 다른 탭에서도 동일하게 로그아웃 함수를 실행합니다. 
     if(!user) return;
     else{
