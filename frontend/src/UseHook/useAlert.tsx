@@ -7,6 +7,7 @@ export const useAlert = () => {
         borderRadius: '16px',        // 모서리도 조금 더 둥글게 해서 부드러운 느낌
         background: '#333',
         color: '#fff',
+                    // 다른 요소보다 위에 뜨도록,
         fontSize: '17px',            // 14px -> 17px로 확대 (가독성 UP)
         fontWeight: '500',           // 글자 두께도 살짝 추가
         padding: '16px 28px',        // 상하좌우 여백을 넓혀서 덩어리감 키움

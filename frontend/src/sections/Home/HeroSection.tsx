@@ -5,8 +5,7 @@ import asset1 from "/assets/website14.png";
 
 
 
-// Lazy load Three.js background to avoid SSR issues
-const AnimatedBackground = lazy(() => import('@/components/three/AnimatedBackground'));
+
 
 export default function HeroSection() {
   return (
@@ -85,8 +84,7 @@ hover:shadow-xl hover:shadow-orange-500/40
    
                    z-0 
 
-        <AnimatedBackground />      
-
+      
             <div className="
     z-10
             

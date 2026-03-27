@@ -32,14 +32,12 @@ public class QAService {
     }
 
     // 2. 폼을 저장해줘
-    public Q_A saveQA(String token, Q_A qa) {
+    public Q_A saveQA(String username, Q_A qa) {
 
-        Member member = null;
+
         //여기부분에 로그 로 확인하는법
-        log.info("saveQA token = {}", token);
-        if (token != null && !token.isBlank()) {
-            member = memberService.authenticateByAccessToken(token);
-        }
+        Member member= memberRepository.findByUsername(username).orElseThrow(() -> new RuntimeException("해당 게시글이 없습니다."));
+
         qa.setMember(member);
         return Qarepository.save(qa);
     }

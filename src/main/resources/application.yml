@@ -2,16 +2,32 @@ spring:
   application:
     name: demo
 
+
   thymeleaf:
     cache: false
     prefix: file:src/main/resources/templates
     suffix: .html
 
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: jungmisoo0528@gmail.com
+    password: "arashi00!!" # 특수문자가 있다면 따옴표로 감싸는 것이 안전합니다.
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+
   datasource:
-    url: jdbc:mariadb://db:3306/safesignal_website  # ← IP 대신 db로 변경
-    #url: jdbc:mariadb://114.202.187.179:3306/safesignal_website
+    #url: jdbc:mariadb://db:3306/safesignal_website  # ← IP 대신 db로 변경
+    url: jdbc:mariadb://114.202.187.179:3306/safesignal_website
     username: asincnt
     password: asincnt1013
+    
+ 
+    
     driver-class-name: org.mariadb.jdbc.Driver
 
   jpa:
@@ -32,3 +48,15 @@ logging:
   level:
     root: info
     org.springframework: info
+
+
+
+
+
+app:
+  mail:
+    from-address: support@safesignal.cloud
+    from-name: SafeSignal 고객지원팀
+
+
+

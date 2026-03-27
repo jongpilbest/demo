@@ -1,6 +1,6 @@
 import React, { type ReactNode } from "react";
 import person from "/assets/person.svg";
-
+import MyPageCheck from "../Modal/MypageCheck";
 interface Props {
   children: ReactNode;
 }
@@ -24,6 +24,9 @@ function MyPageTitle({ children }: { children: ReactNode }) {
     </h1>
   );
 }
+
+
+
 
 // 3. 프로필 카드 부품 (색상과 뱃지를 Prop으로 받기)
 interface ProfileProps {
@@ -55,6 +58,7 @@ function MyPageProfile({ user, iconBgColor = "bg-orange-500", badgeText }: Profi
           <p className="text-md text-gray-500">{user?.company}</p>
         </div>
       </div>
+      <MyPageCheck user={user}></MyPageCheck>
     </div>
   );
 }

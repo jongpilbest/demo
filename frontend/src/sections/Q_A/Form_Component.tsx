@@ -3,7 +3,7 @@ import type { QAItem } from '@/type/Qa/Qa_type';
 import React from 'react'
 import { useNavigate } from 'react-router-dom'
 import FormComponent from '@/components/FormComponent';
-export default function Form_Same_Component({ data, text, Create_answer_state, key }: { data: QAItem[], text?: string, Create_answer_state: boolean }) {
+export default function Form_Same_Component({ data, text, Create_answer_state, groupId }: { data: QAItem[], text?: string, Create_answer_state: boolean ,groupId:string}) {
 
   const navigate = useNavigate();
   const { user } = useAuth();
@@ -17,7 +17,9 @@ export default function Form_Same_Component({ data, text, Create_answer_state, k
 
 
   return (
-    <div className="bg-white rounded-2xl shadow-sm overflow-hidden w-full">
+    <div 
+  
+    className="bg-white rounded-2xl shadow-sm overflow-hidden w-full">
       {/* 상단 헤더 */}
       <div className="flex items-center justify-between px-4 py-6 border-b">
         <h3 className="text-2xl  font-semibold text-gray-800">
@@ -64,7 +66,7 @@ export default function Form_Same_Component({ data, text, Create_answer_state, k
 
       {/* 리스트 */}
       {data.length > 0 && data.map((item, index) => (
-        <FormComponent item={item} keyname={`form-${index}-${key}`}></FormComponent>
+        <FormComponent item={item} key={`form-${index}-${groupId}`}></FormComponent>
 
       ))}
     </div>

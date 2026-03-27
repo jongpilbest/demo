@@ -11,12 +11,14 @@ import com.example.demo.jwt.JwtProvider;
 import jakarta.persistence.Id;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 import com.example.demo.dto.LoginRequest;
 
 import java.net.http.HttpResponse;
 import java.util.HashMap;
 import java.util.List;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.util.Map;
 import org.springframework.http.ResponseEntity;
@@ -68,19 +70,34 @@ public class QAController {
 
 
    @GetMapping("/qa_list")
-   public List<Q_A> myQaList(@CookieValue(value="accessToken", required=false) String token) {
-       String memberId = jwtProvider.getUsername(token); // 또는 username 추출 후 조회
-       // 여기서 내가 첨부터.. username 으로 토큰값을 만들어서 오류가 나기 시작한거네....
-       return qaService.getQA(memberId);
+   public ResponseEntity<?> myQaList(HttpServletRequest request,
+    @AuthenticationPrincipal String username
+
+   ) {
+
+       List<Q_A> qaList = qaService.getQA(username);
+       return ResponseEntity.ok(qaList);
    }
 
     @PostMapping("/new_form")
     public  ResponseEntity<?> update_form (
-            @CookieValue(value="accessToken", required=false) String token,
+            HttpServletRequest request,
             @RequestBody Q_A qA) {
+        String token = null;
+        String header = request.getHeader("Authorization");
+
+        if (header != null && header.startsWith("Bearer ")) {
+            token = header.substring(7);
+        }
+
+        if (token == null || !jwtProvider.validateToken(token)) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(Map.of("message", "Invalid token"));
+        }
+
+        String username = jwtProvider.getUsername(token);
         // 이거 폼 형태로 들어오면 ;
 
-        qaService.saveQA(token,qA);
+        qaService.saveQA(username,qA);
 
        return ResponseEntity
                 .status(HttpStatus.CREATED)

@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from 'react';
 import { Button } from '@/components/ui/button';
 import { Menu, X } from 'lucide-react';
-
+import { useAlert } from '@/UseHook/useAlert';
 import { useNavigate } from "react-router-dom";
 import { useAuth } from '@/context/AuthContext';
 import { User } from 'lucide-react';
@@ -13,7 +13,7 @@ export default function Header() {
   const navigate = useNavigate();
   const { isAuthenticated, user, logout } = useAuth();
   const menuRef = useRef<HTMLDivElement>(null)
-
+  const { success } = useAlert();
 
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -38,6 +38,7 @@ export default function Header() {
   const handleLogout = async () => {
     await logout()
     EventBus.publish('logout', null, true)
+    success(`${user?.username}님 로그아웃 되었습니다! `);
     navigate('/');
 
   }
@@ -47,6 +48,8 @@ export default function Header() {
       ref={menuRef}
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300  
           bg-white
+
+        px-10
         ${isScrolled
           ? 'bg-white/95 backdrop-blur-md shadow-sm'
           : 'bg-transparent'
@@ -120,7 +123,14 @@ export default function Header() {
                     <div className="flex flex-col p-2 text-sm">
                       <button
                         onClick={() => {
-                          navigate('/mypage')
+
+                             if(user?.role?.roleName === 'ADMIN') {
+                              navigate('/admin/dashboard');
+                            } else {
+                              navigate('/mypage');
+                            }
+                          //navigate('/mypage')
+
 
                           //여기 권환을 다르게 줘도 괜찮을거같은데... 
 
@@ -128,7 +138,7 @@ export default function Header() {
 
                         }}
                         className="text-left px-3 py-2 hover:bg-gray-100 rounded-md">
-                        마이페이지
+                        {user?.role?.roleName === 'ADMIN' ? '관리자 대시보드' : '마이페이지'}
                       </button>
                       <button
                         onClick={handleLogout}
@@ -158,22 +168,75 @@ export default function Header() {
           </button>
         </div>
 
-        {/* Mobile Menu */}
-        {isMobileMenuOpen && (
-          <div className="lg:hidden bg-gray-400 border-t border-gray-100 py-4">
-            <nav className="flex flex-col gap-2">
+        
 
-              <div className="flex flex-col gap-2 px-4 pt-4 border-t border-gray-100 mt-2">
-                <Button variant="outline" className="w-full">
-                  문의하기
-                </Button>
-                <Button className="w-full  hover:bg-orange-600 text-black">
-                  로그인
-                </Button>
-              </div>
-            </nav>
+{/* Mobile Menu */}
+{isMobileMenuOpen && (
+  <div className="lg:hidden bg-white border-t border-gray-100 py-4 shadow-lg">
+    <nav className="flex flex-col gap-2 px-4">
+      <Button 
+        variant="ghost" 
+        onClick={() => {
+          navigate("/contact");
+          setIsMobileMenuOpen(false);
+        }}
+        className="w-full justify-start text-gray-700"
+      >
+        문의하기
+      </Button>
+
+      <div className="h-px bg-gray-100 my-2" />
+
+      {!isAuthenticated ? (
+        <Button 
+          onClick={() => {
+            navigate("/login");
+            setIsMobileMenuOpen(false);
+          }}
+          className="w-full bg-orange-500 hover:bg-orange-600 text-white"
+        >
+          로그인
+        </Button>
+      ) : (
+        <div className="flex flex-col gap-2">
+          {/* 유저 정보 표시 */}
+          <div className="flex items-center gap-2 px-3 py-2 bg-gray-50 rounded-md mb-2">
+            <div className="rounded-full bg-gray-500 p-1">
+              <User size={16} className="text-white" />
+            </div>
+            <p className="text-sm font-medium text-gray-700">{user?.username}님</p>
           </div>
-        )}
+          
+          <Button 
+            variant="outline"
+            onClick={() => {
+              // 권한에 따른 이동 로직 추가 가능
+              const targetPath = user?.role === 'ADMIN' ? '/admin/dashboard' : '/mypage';
+              navigate(targetPath);
+              setIsMobileMenuOpen(false);
+            }}
+            className="w-full justify-start"
+          >
+            {user?.role === 'ADMIN' ? '관리자 대시보드' : '마이페이지'}
+          </Button>
+          
+          <Button 
+            variant="destructive"
+            onClick={() => {
+              handleLogout();
+              setIsMobileMenuOpen(false);
+            }}
+            className="w-full justify-start bg-red-50 text-red-600 hover:bg-red-100 border-none"
+          >
+            로그아웃
+          </Button>
+        </div>
+      )}
+    </nav>
+  </div>
+)}
+
+
       </div>
     </header>
   );

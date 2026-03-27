@@ -1,10 +1,10 @@
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import {
   fetctGetQAList, fetchPostQA, fetctAllnonPrivateGetQAList, Answer_QA_Admin, Delete_QA_Admin,
-  fetchAdminIsnotanswerSTate,
+  fetchAdminIsnotanswerSTate, FetchEnroll_User
 } from "@/api/qa.ts";
 import { useAlert } from "@/UseHook/useAlert";
-
+import{ type User_infomation} from "@/type/Qa/User";
 // 이거좀 회원은 회원대로 나누고, 
 // QA는 QA대로 나눠야할듯... 지금 너무 겹처 있어서 무슨 코드인지 잘모르겠음
 
@@ -90,5 +90,18 @@ export function useISNotANswerState() {
 }
 
 
-
+// 회원가입 로직 
+// 훅 이름도 Query 대신 Mutation으로 바꾸는 것이 관례입니다 ㅋ
+export function useEnrollMutation() {
+  const { success, error } = useAlert();
+  return useMutation<void, Error, User_infomation>({
+    mutationFn: (variables) => FetchEnroll_User({ rest: variables }), 
+    onSuccess: () => {
+      success("회원가입이 완료되었습니다! 잠시 후 자동으로 로그인됩니다.");
+    },
+    onError: () => {
+      error("회원가입에 실패했습니다. 다시 시도해주세요.");
+    }
+  });
+}
 

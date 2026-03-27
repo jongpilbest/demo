@@ -1,5 +1,6 @@
 package com.example.demo.service;
 
+import com.example.demo.dto.MemberPermissionResponse;
 import com.example.demo.entity.Member;
 import com.example.demo.entity.Role;
 import com.example.demo.entity.RolePermission;
@@ -19,11 +20,14 @@ public class PermissionService {
    private final MemberService memberService;
    private final PermissionRepository rolePermissionRepository;
 
-      public Map<String, List<PermissionType>> FindMemberPermission(String username){
+      public MemberPermissionResponse FindMemberPermission(String username){
 
           Member member = memberService.findMember((username));
           if (member == null) {
-              return Map.of();
+              return MemberPermissionResponse.builder()
+                      .role("UNKNOWN")
+                      .permissions(Map.of())
+                      .build();
           }
           Role role = member.getRole();
 
@@ -34,7 +38,7 @@ public class PermissionService {
 
           // stream api 를 사용해서 복잡한 리스트 데이터를 MAp 형태로 바꾸는 과정
 
-          return permissions.stream()
+          Map<String, List<PermissionType>> permissionMap =  permissions.stream()
                   .collect(Collectors.groupingBy(
                           rp -> rp.getFeature().getCode(), // Key: Feature의 ID
                           Collectors.mapping(
@@ -43,6 +47,10 @@ public class PermissionService {
                           )
                   ));
 
+          return MemberPermissionResponse.builder()
+                  .role(role.getRoleName())
+                  .permissions(permissionMap)
+                  .build();
 
       }
 

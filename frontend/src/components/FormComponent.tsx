@@ -8,11 +8,9 @@ import Form_Type from './Form_Type';
 
 type Props = {
   item: QAItem;
-  keyname: string;
-
 };
 
-export default function FormComponent({ item, keyname }: Props) {
+export default function FormComponent({ item }: Props) {
 
   const [isOpen, setIsOpen] = useState(false);
   const answerstate = item.answerState;
@@ -24,7 +22,6 @@ export default function FormComponent({ item, keyname }: Props) {
   return (
     <div
 
-      key={keyname}
       className="border-b border-gray-200 bg-white">
       {/* 1. 요약 행 (Summary Row) */}
       <div

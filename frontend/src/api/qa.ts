@@ -5,15 +5,30 @@ import { api } from "./client";
 import {type  QAItem,type  AnswerResponse , type CreateQAInput} from "@/type/Qa/Qa_type";
 
 
+
+
+//  사용자 회원가입 호출 로직
+
+export async function FetchEnroll_User({rest}: {rest: any}):Promise<void>{
+   const res= await api.post("/api/members/signup", { 
+          ...rest, 
+          role: { id: 2 } 
+        });
+
+        return res.data 
+}
+
+
+
 // get으로 요청할때. 
 export async function fetctGetQAList(): Promise<QAItem[]> {
-  const res = await api.get("/api/form/qa_list", { withCredentials: true });
+  const res = await api.get("/api/form/qa_list");
   return res.data;
 }
 
 // get으로 요청할때. 
 export async function fetctAllnonPrivateGetQAList(): Promise<QAItem[]> {
-  const res = await api.get("/api/form/All_qa_list", { withCredentials: true });
+  const res = await api.get("/api/form/All_qa_list");
   return res.data;
 }
 
@@ -46,7 +61,7 @@ export async function Delete_QA_Admin(id:number):Promise<AnswerResponse>
 
 
 export async function fetchPostQA(payload:CreateQAInput): Promise<void>{
-    const res = await api.post("/api/form/new_form", payload, { withCredentials: true });
+    const res = await api.post("/api/form/new_form", payload);
    return res.data;
 }
 

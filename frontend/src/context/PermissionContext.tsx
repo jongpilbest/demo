@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useCallback, createContext, useContext, useState } from "react";
-import { api } from "@/api/client";
+import { api, getAccessToken } from "@/api/client";
 import { useAuth } from "./AuthContext";
 
 
@@ -20,6 +20,10 @@ type PermissionContextType={
   canCreate:(feature: string) => boolean,
   canUpdate:(feature: string) => boolean,
   canDelete:(feature: string) => boolean,
+
+
+  // 권환확인
+    hasPermission : (featureName: string, permissionType: PermissionType) => boolean;
 
 }
 
@@ -72,15 +76,18 @@ export const PermissionProvider = ({ children }: Props) => {
    try {
        // 사용자가 보내는 토큰으로 사용자의 권환 / user Type 을 확인한다. 
       setLoading(true);
+        console.log(getAccessToken(),'토큰이 안보이는거 같아')
 
-       const PermissionResponse = await api.get("/api/user/permission" ,{
-        withCredentials:true
-       });
+       const PermissionResponse = await api.get("/api/user/permission");
+    
        if (PermissionResponse.status === 200) {
         // 응답을 잘 받은 경우에만 저장하는 로직
         const responseData = PermissionResponse.data;
-        console.log('여기 오래 걸려서 그런건가,,,')
+        console.log(responseData,'권환 조회 응답 데이터')
+      
         setUserPermissions(responseData.permissions);
+        setuserRole(responseData.role);    
+
        }
      } catch(e:any) {
         console.error('권환 조회시 오류가 발생했습니다.');
@@ -98,6 +105,7 @@ export const PermissionProvider = ({ children }: Props) => {
   },[])
 
     // 해당 feautre: 기능에 해당 role_permission 이 있는지 확인하는 공통 함수 
+
 
 
     //useCallback 에서 함수 안에서 사용하는 외부 변수는 dependecy 에 넣어야된다.
@@ -133,14 +141,27 @@ export const PermissionProvider = ({ children }: Props) => {
 
 
   useEffect(() => {
-    // 백엔드에서 권한 달라고 하기 
-    loadUserPermissions()
-  }, [user]);
+    if(user) {
+      loadUserPermissions()
+    }
+    else{
+      setUserPermissions({});
+      setuserRole(null);
+      setLoading(false);
+    }
+   
+  }, [user,loadUserPermissions]);
 
+// hasPermission 으로 접근 권환 갖게 해서 Route 조정
 
+// CanRead 는 ui 안에서 만 조정 
+
+//useMemo 에 dependecy의 같은 이름의 useCallback 함수 넣는
+// 
 
   const value= useMemo(()=>({
     userRole,
+    hasPermission,
     canRead,
     canDelete,
     canUpdate,
@@ -155,7 +176,9 @@ export const PermissionProvider = ({ children }: Props) => {
     canAnswer,
     canCreate,
     loading,
-    status
+    status,
+    hasPermission
+
      ])
 
   return (

@@ -1,18 +1,41 @@
 
-import { Suspense ,lazy, useEffect } from "react";
+import { Suspense ,lazy, useState,useRef, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
 import {useAuth} from '../../context/AuthContext'
+import { EyeOff,Eye } from "lucide-react";
 
-const AnimatedBackground = lazy(() => import('@/components/three/AnimatedBackground'));
 import{EventBus}from '../../watcher/eventBus'
+import { useAlert } from "@/UseHook/useAlert";
+
+import PasswordInput  from "../../components/Password_Form";
+
 
 export default function LoginPage() {
   
-  const{login,isAuthenticated}=useAuth();
+  const{login}=useAuth();
+  const { success, error } = useAlert();
+  const usernameRef = useRef<HTMLInputElement>(null);
+
+  // 비동기에서 걸림. 이거 시간 차이 때문에 permision 값이 제대로 업데이트 되지 않았는데 그냥 go 
+  // 여서 지금 다른 페이지로 이동하게 되는거임. 
+  // const{userRole}=usePermission();
+
+  useEffect(() => {
+    if (usernameRef.current) {
+      usernameRef.current.focus(); // 입력창에 포커스 뽝!
+    }
+  }, []);
+
 
  const navigate=useNavigate();
 
+ // 비밀번호 보여줄지 말지를 결정하는 상태값 . 
+
+ const [showPassword, setShowPassword] = useState(false);
+ const togglePasswordVisibility = () => {
+    setShowPassword(!showPassword);
+  };
 
  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -24,22 +47,21 @@ export default function LoginPage() {
 
     try{
       
-     await login({ username, password });
-     
-     navigate('/Mypage');
+    const result = await login({ username, password });
+ 
 
-
-
-     
+     success(`${result?.username}님 환영합니다! `);
+     navigate('/')
+     // 지금 dTO고쳤더니 에러나고..;; 
+  //login 이뤄지고 나서 permision 이 될텐데. 현재는 awiat 으로 비동기를 걸어서 .....
       EventBus.publish('login', null, true)
-    if(isAuthenticated){
-    navigate('/Mypage')
-  }
-    }
-    catch{
-      //에러 메세지 오면 여기서 모듈 처리 하는 식으로 하기 
 
-      console.error('로그인시 오류가 발생했습니다.')
+    }
+    catch(e: any){
+      //에러 메세지 오면 여기서 모듈 처리 하는 식으로 하기 
+      //여기 그거 위에 되는거 
+     error(e)
+     
 
     }
 
@@ -59,6 +81,7 @@ export default function LoginPage() {
         <form onSubmit={handleSubmit}>
           <div className="mb-8">
             <input
+            ref={usernameRef}
               name="username"
               type="text"
               placeholder="아이디를 입력해주세요"
@@ -66,14 +89,9 @@ export default function LoginPage() {
             />
           </div>
 
-          <div className="mb-3">
-            <input
-              name="password"
-              type="password"
-              placeholder="비밀번호를 입력해주세요"
-              className="w-full border-b border-gray-400 focus:outline-none focus:border-purple-500 py-2"
-            />
-          </div>
+      <div className="mb-8 relative w-full"> {/* 부모에 w-full과 relative를 줍니다 */}
+     <PasswordInput name="password" />
+</div>
 
           <button
             type="submit"
