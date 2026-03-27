@@ -5,7 +5,7 @@ interface EditFormWrapperProps<T> {
   children: React.ReactNode;
 }
 
-export const EditFormWrapper = <T extends Record<string, any>>({
+const EditFormWrapper = <T extends Record<string, any>>({
   title,
   onCancel,
   onSave,
@@ -53,3 +53,5 @@ export const EditFormWrapper = <T extends Record<string, any>>({
     </section>
   );
 };
+
+export default
