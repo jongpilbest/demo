@@ -2,17 +2,12 @@ spring:
   application:
     name: demo
 
-
-  thymeleaf:
-    cache: false
-    prefix: file:src/main/resources/templates
-    suffix: .html
-
+  # 1. 메일 설정 (들여쓰기 수정)
   mail:
     host: smtp.gmail.com
     port: 587
     username: jungmisoo0528@gmail.com
-    password: "arashi00!!" # 특수문자가 있다면 따옴표로 감싸는 것이 안전합니다.
+    password: "arashi00!!"
     properties:
       mail:
         smtp:
@@ -20,43 +15,45 @@ spring:
           starttls:
             enable: true
 
+  # 2. 데이터베이스 설정 (중요: db 서비스 이름 확인)
   datasource:
-    url: jdbc:mariadb://db:3306/safesignal_website  # ← IP 대신 db로 변경
-    #url: jdbc:mariadb://114.202.187.179:3306/safesignal_website
+    url: jdbc:mariadb://db:3306/safesignal_website
     username: asincnt
     password: asincnt1013
-    
- 
-    
     driver-class-name: org.mariadb.jdbc.Driver
 
+  # 3. JPA/Hibernate 설정
   jpa:
     hibernate:
       ddl-auto: update
+    database-platform: org.hibernate.dialect.MariaDBDialect
     properties:
       hibernate:
         show_sql: true
         format_sql: true
 
+  # 4. 타임리프 설정
+  thymeleaf:
+    cache: false
+    prefix: file:src/main/resources/templates
+    suffix: .html
+
+# 서버 포트
 server:
   port: 8085
 
+# CORS 설정
 cors:
-    allowed-origins: "https://safesignal.cloud,https://www.safesignal.cloud"
+  allowed-origins: "https://safesignal.cloud,https://www.safesignal.cloud"
 
+# 로깅 설정
 logging:
   level:
     root: info
     org.springframework: info
 
-
-
-
-
+# 커스텀 앱 설정
 app:
   mail:
     from-address: support@safesignal.cloud
     from-name: SafeSignal 고객지원팀
-
-
-
