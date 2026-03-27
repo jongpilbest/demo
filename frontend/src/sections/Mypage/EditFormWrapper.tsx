@@ -29,7 +29,7 @@ const EditFormWrapper = <T extends Record<string, any>>({
       <form onSubmit={handleSubmit}>
         <div className="space-y-4">{children}</div>
         <div className="flex justify-end gap-2 mt-8">
-          <button type="button" onClick={onCancel} className="...">취소</button>
+          <button type="button" onClick={onCancel} className="bg-slate-200">취소</button>
           <button type="submit" className="...">변경</button>
         </div>
       </form>

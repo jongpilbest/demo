@@ -1,5 +1,8 @@
 -- 1. Role 테이블 (role_name으로 수정)
-INSERT INTO role (id, role_name) VALUES (1, 'ROLE_ADMIN'), (2, 'ROLE_USER')
+INSERT INTO role (id, role_name) VALUES (1, 'ADMIN'), (2, 'USER')
+
+
+
 ON DUPLICATE KEY UPDATE role_name = VALUES(role_name);
 
 -- 2. Feature 테이블

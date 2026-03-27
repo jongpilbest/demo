@@ -13,6 +13,7 @@ import { checkPasswordApi, deleteUserApi } from "@/api/memeber_api";
 import { toast } from "react-hot-toast";
 import { useNavigate } from "react-router";
 import { setAccessToken } from "@/api/client";
+import { Eye,EyeOff } from "lucide-react";
 export default function MyPageProfile({ user}: User_infomation) {
   
    const[UserEdit,setUserEdit]=useState(false);
@@ -20,6 +21,7 @@ export default function MyPageProfile({ user}: User_infomation) {
    const [password, setPassword] = useState(""); // 입력받는 비밀번호
     const [isModalOpen, setIsModalOpen] = useState(false);
     const { mutateAsync: editUser } = useEditUserMutation();
+    const[showPassword, setShowPassword] = useState(false);
   const{checkAuth}=useAuth();
    const{loading, success,error}= useAlert();
    const navigate = useNavigate();
@@ -127,13 +129,22 @@ const handleCancel = () => {
         <p className="text-sm text-gray-600 mb-6">정보 수정을 위해 비밀번호를 다시 입력해주세요.</p>
         
         <div className="flex gap-2">
-          <input 
-            type="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            placeholder="비밀번호 입력"
-            className="flex-1 border p-2 rounded-md outline-none focus:border-green-500"
-          />
+         <div className="flex gap-2 flex-1 relative">
+  <input 
+    type={showPassword ? "text" : "password"}
+    value={password}
+    onChange={(e) => setPassword(e.target.value)}
+    placeholder="비밀번호 입력"
+    className="flex-1 border p-2 rounded-md outline-none focus:border-green-500 pr-10"
+  />
+  <button
+    type="button"
+    onClick={() => setShowPassword((prev) => !prev)}
+    className="absolute right-2 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600"
+  >
+    {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+  </button>
+</div>
           <button 
             onClick={handleVerifyPassword}
             className="px-6 py-2 bg-gray-800 text-white rounded-md text-sm"

@@ -2,40 +2,43 @@ import React, { useState } from "react";
 import { Eye, EyeOff } from "lucide-react";
 
 interface PasswordInputProps {
-  name?: string;
+  name: string;          // FormData에서 인식할 키 값
+  defaultValue?: string; // 초기값 (필요 시)
   placeholder?: string;
-  className?: string;
+  showEyeIcon?: boolean;
 }
 
-const PasswordInput = ({ 
-  name = "password", 
-  placeholder = "비밀번호를 입력하세요",
-  className = "" 
+const PasswordInput = ({
+  name,
+  defaultValue = "",
+  placeholder,
+  showEyeIcon = true,
 }: PasswordInputProps) => {
+  // 눈 아이콘 토글용 상태만 내부에서 관리
   const [showPassword, setShowPassword] = useState(false);
 
-  const togglePasswordVisibility = () => {
-    setShowPassword((prev) => !prev);
-  };
-
   return (
-    <div className={`relative w-full ${className}`}>
-      <input
-        name={name}
-        type={showPassword ? "text" : "password"}
-        placeholder={placeholder}
-        className="w-full border-b border-gray-400 focus:outline-none focus:border-purple-500 py-2 pr-10"
-      />
-      
-      {/* 아이콘 버튼 */}
-      <button
-        type="button" // form 전송 방지를 위해 반드시 type="button" 지정
-        onClick={togglePasswordVisibility}
-        className="absolute right-2 top-1/2 -translate-y-1/2 cursor-pointer text-gray-500 hover:text-purple-600 transition-colors"
-        aria-label={showPassword ? "비밀번호 숨기기" : "비밀번호 보기"}
-      >
-        {showPassword ? <EyeOff size={25} /> : <Eye size={2} />}
-      </button>
+    <div className="flex flex-col w-full">
+      <div className="relative">
+        <input
+          type={showEyeIcon && showPassword ? "text" : "password"}
+          name={name} // 비제어 방식의 핵심: name 속성
+          defaultValue={defaultValue} // value 대신 defaultValue 사용
+          placeholder={placeholder}
+          className={`w-full border border-gray-300 py-2 outline-none focus:ring-2 focus:ring-indigo-500 transition-all ${
+            showEyeIcon ? "pr-10" : ""
+          }`}
+        />
+        
+        {showEyeIcon && (
+          <span
+            onClick={() => setShowPassword(!showPassword)}
+            className="absolute right-3 top-1/2 -translate-y-1/2 cursor-pointer text-gray-400 hover:text-gray-600 transition-colors"
+          >
+            {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
+          </span>
+        )}
+      </div>
     </div>
   );
 };

@@ -9,8 +9,9 @@ export const PasswordInputRow = ({ label, value, onChange, helperText }: any) =>
         <label className="w-24 text-sm text-gray-600 font-medium">{label}</label>
         <div className="relative flex-1">
           <input
-            type={show ? "text" : "password"} // 요게 핵심 로직!
+            type="password" // 요게 핵심 로직!
             value={value}
+        
             onChange={(e) => onChange(e.target.value)}
             className="w-full border border-gray-200 rounded-md p-2 pr-10 text-sm focus:outline-none focus:border-green-500"
           />
