@@ -40,7 +40,7 @@ api.interceptors.response.use(
       try {
         // refresh 시도
         const { data } = await axios.post(
-          "http://localhost:8085/api/members/refresh",
+          "http://backend:8085/api/members/refresh",
           {},
           { withCredentials: true }
         );
