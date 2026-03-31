@@ -24,8 +24,8 @@ const PasswordInput = ({
           type={showEyeIcon && showPassword ? "text" : "password"}
           name={name} // 비제어 방식의 핵심: name 속성
           defaultValue={defaultValue} // value 대신 defaultValue 사용
-          placeholder={placeholder}
-          className={`w-full border border-gray-300 py-2 outline-none focus:ring-2 focus:ring-indigo-500 transition-all ${
+          placeholder="비밀번호를 입력해줏세요"
+          className={`w-full border-b border-gray-400 focus:outline-none focus:border-purple-500 py-2 ${
             showEyeIcon ? "pr-10" : ""
           }`}
         />

@@ -33,9 +33,6 @@ export default function LoginPage() {
  // 비밀번호 보여줄지 말지를 결정하는 상태값 . 
 
  const [showPassword, setShowPassword] = useState(false);
- const togglePasswordVisibility = () => {
-    setShowPassword(!showPassword);
-  };
 
  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();

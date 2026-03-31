@@ -39,7 +39,9 @@ public class JwtFilter extends OncePerRequestFilter {
             "/api/members/refresh",
             "/api/members/check-id",
             "/api/form/All_qa_list",
-            "/api/members/check-id"
+            "/api/members/check-id",
+            "/api/form/new_form",
+            "/api/chat/chatting"
     );
 
     @Override

@@ -6,6 +6,7 @@ import { useCreateQAQuery } from '../../query/useQAquery'
 import "react-quill/dist/quill.snow.css";
 import { ChevronDown } from "lucide-react";
 import { useAuth } from '@/context/AuthContext';
+import { useAlert } from "@/UseHook/useAlert";
 
 const Quill = (ReactQuill).Quill;
 
@@ -24,11 +25,11 @@ export default function Q_A_Write_Components() {
   };
   const formRef = useRef<any>(null);
   const { mutateAsync } = useCreateQAQuery();
-
+ const{error,succes}= useAlert();
   const ResponseForm = async (e) => {
     e?.preventDefault();
 
-    if (!formRef.current) return;
+    if (!formRef.current) return; 
 
     // 1) form input들 수집
     const fd = new FormData(formRef.current);
@@ -44,21 +45,37 @@ export default function Q_A_Write_Components() {
     };
 
     if (!payload.title) {
-      alert("제목을 입력해주세요.");
+      error("제목을 입력해주세요.");
       return;
     }
     if (!payload.email) {
-      alert("이메일을 입력해주세요.");
+      error("이메일을 입력해주세요.");
       return;
     }
+
+   if(!payload.company){
+    error("회사명을 입력해주세요.");
+   }
+
     if (!payload.content || payload.content === "<p><br></p>") {
-      alert("내용을 입력해주세요.");
+      error("내용을 입력해주세요.");
       return;
     }
+    if (!payload.email.includes("@")) {
+        error("올바른 이메일 형식이 아닙니다.");
+        return;
+    }
+
+    
+
+
 
     try {
 
       mutateAsync(payload)
+      // 성공하면 이전으로 돌아가기?
+      window.history.back();
+    
 
       setValue("");
 

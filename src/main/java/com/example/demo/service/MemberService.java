@@ -1,9 +1,12 @@
 package com.example.demo.service;
 
+import com.example.demo.entity.DeleteHistory;
 import com.example.demo.entity.Member;
 
+import com.example.demo.entity.Q_A;
 import com.example.demo.exception.MemberNotFoundException;
 import com.example.demo.exception.UnauthorizedException;
+import com.example.demo.repository.DeleteHistoryRepository;
 import com.example.demo.repository.MemberRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -13,6 +16,8 @@ import com.example.demo.jwt.JwtProvider;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
 
@@ -24,6 +29,7 @@ public class MemberService {
 
 
     private final MemberRepository memberRepository;
+    private final DeleteHistoryRepository deleteHistoryRepository;
     private final JwtProvider jwtProvider;
     private final PasswordEncoder passwordEncoder;
 
@@ -168,9 +174,37 @@ public class MemberService {
         Member member = memberRepository.findByUsername(username)
                 .orElseThrow(() -> new MemberNotFoundException("사용자를 찾을 수 없습니다."));
 
+
+        //memberRepository.delete(member);
+        DeleteHistory history = DeleteHistory.builder()
+                .memberId(member.getId())
+                .usernameSnapshot(member.getUsername())
+                .deletedFields("password,name,email,phone,company,refreshToken,Q_A.email,Q_A.company")
+                .processedBy(member.getRole().getRoleName())
+                .processedAt(LocalDateTime.now())
+                .build();
+
+        deleteHistoryRepository.save(history);
+
+
+
+        for (Q_A qa : member.getQas()) {
+            qa.setEmail(null);
+            qa.setCompany(null);
+        }
         // 2. 삭제 실행
         // 이제 cascade 설정 덕분에 자식인 Q_A들도 트랜잭션 종료 시점에 자동 삭제됩니다.
-        memberRepository.delete(member);
+
+        member.setUsername("deleted_" + member.getId());
+        member.setPassword(null);
+        member.setName(null);
+        member.setEmail(null);
+        member.setPhone(null);
+        member.setCompany(null);
+        member.setRefreshToken(null);
+
+
+
 
 
 

@@ -48,7 +48,10 @@ public class SecurityConfig {
 
                         // permitAll : 토쿤 없이도 접근 가능하게 할 API
 
-                        .requestMatchers("/api/members/login", "/api/members/signup", "/api/members/check-id",  "/api/members/refresh").permitAll()
+                        .requestMatchers("/api/members/login", "/api/members/signup",
+
+                                "/api/chat/chatting",
+                                "/api/members/check-id",  "/api/members/refresh","/api/form/new_form").permitAll()
                         .requestMatchers("/api/form/All_qa_list").permitAll()
                         .requestMatchers("/error").permitAll()
                         // 관리자 전용

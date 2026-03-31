@@ -14,17 +14,15 @@ export default function Q_A_Components() {
 
   // 질문과 답변 페이지에서는 비밀글이 아닌것을 다 불러옴
   const { data, isPending, isError } = usenonPrivateFormList();
-
   if (isPending) return <div>로딩중...</div>;
   if (isError) return <div>에러가 발생했습니다.</div>
-
+ 
   // 여기도 권환 불러와서 admin 일때는 글쓰기 권환 주지 말고 
 
   // user 일때만 권한주기 
-
+ console.log(data,'데이터')
 
   const userRole = (user?.role?.roleName) || 'DEFAULT';// 기본값을 ADMIN로 설정
-  console.log(userRole, '유저 정보')
 
 
   return (

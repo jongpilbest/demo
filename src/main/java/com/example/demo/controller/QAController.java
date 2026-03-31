@@ -1,5 +1,6 @@
 package com.example.demo.controller;
 
+import com.example.demo.dto.QAResponse;
 import com.example.demo.dto.Qa_Admn;
 import com.example.demo.entity.Member;
 import com.example.demo.entity.Q_A;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.*;
 import com.example.demo.dto.LoginRequest;
 
 import java.net.http.HttpResponse;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import jakarta.servlet.http.HttpServletRequest;
@@ -33,11 +35,12 @@ public class QAController {
 
 
     @GetMapping("/All_qa_list")
-    public List<Q_A> All_qa_list (){
+    public List<QAResponse> All_qa_list (){
 
-        List<Q_A> list =  qaService.ALlForm_data();
+        List<QAResponse> list =  qaService.ALlForm_data();
+
         if(list.isEmpty()){
-            throw new MemberNotFoundException("공개 문의가 없습니다.");
+            return Collections.emptyList();
         }
 
         return list;
@@ -80,29 +83,27 @@ public class QAController {
    }
 
     @PostMapping("/new_form")
-    public  ResponseEntity<?> update_form (
-            HttpServletRequest request,
-            @RequestBody Q_A qA) {
-        String token = null;
+    public ResponseEntity<?> update_form(HttpServletRequest request, @RequestBody Q_A qA) {
         String header = request.getHeader("Authorization");
+        String token = null;
 
         if (header != null && header.startsWith("Bearer ")) {
             token = header.substring(7);
         }
 
+        // 1. 토큰이 없거나 유효하지 않은 경우 -> 익명 저장
         if (token == null || !jwtProvider.validateToken(token)) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(Map.of("message", "Invalid token"));
+            qaService.saveQA("익명", qA);
+        }
+        // 2. 토큰이 있는 경우 -> 회원 저장
+        else {
+            String username = jwtProvider.getUsername(token);
+            qaService.saveQA(username, qA);
         }
 
-        String username = jwtProvider.getUsername(token);
-        // 이거 폼 형태로 들어오면 ;
-
-        qaService.saveQA(username,qA);
-
-       return ResponseEntity
+        return ResponseEntity
                 .status(HttpStatus.CREATED)
                 .body(Map.of("status", "success"));
-
     }
 
 
@@ -135,6 +136,19 @@ public class QAController {
         return ResponseEntity.ok(response);
     }
 
+    @GetMapping("/Admin_check_qa_list")
+    public ResponseEntity<?> adminCheckQa(@RequestParam("id") Long id) {
+        try {
+            qaService.markAsReadByAdmin(id);
+            return ResponseEntity.ok(Map.of(
+                    "status", "success",
+                    "message", id + "해당 게시글을 관리자가 확인했습니다."
+            ));
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .body(Map.of("error", e.getMessage()));
+        }
+    }
 
 
 

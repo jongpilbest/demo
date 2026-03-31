@@ -10,6 +10,9 @@ import Q_A_write from './sections/Q_A/Q_A_Write_Components';
 import { QueryErrorResetBoundary } from '@tanstack/react-query';
 import Admin_Dashboard from './sections/Mypage/Admin_Page'; 
 import UserType from './sections/Mypage/UserType';
+import CookieBanner from './components/CookieBanner';
+import Login___ from './sections/Login/Login___';
+
 import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
 import ProtectedRoute from './components/ProtecedRoute';
 import { Toaster } from 'react-hot-toast';
@@ -23,6 +26,7 @@ import { PermissionProvider } from './context/PermissionContext';
 import ErrorBoundary from './components/ErrorBoundary';
 import TermsOfService from './sections/Policy/Term';
 import PrivacyPolicy from './sections/Policy/Privacy';
+import Chatbot from './components/Chatbot/ChatBot';
 
 function ScrollToTop() {
   const location = useLocation();
@@ -39,23 +43,16 @@ function App() {
     <AuthProvider>
       <PermissionProvider>
         <BrowserRouter>
-       
+        <CookieBanner></CookieBanner>
+        <Chatbot></Chatbot>
+        
          
           <ErrorBoundary>
             <Toaster 
-            toastOptions={{
-    // 모든 토스트 박스에 공통 적용될 스타일
-    style: {
-      zIndex: 9999, 
-    },
-  }}
-  // 토스트들을 담는 바구니(컨테이너)의 zIndex를 아예 끝판왕으로 설정
-  containerStyle={{
-    zIndex: 99999,
-  }}
+            toastOptions={{style: { zIndex: 9999, },}} containerStyle={{ zIndex: 99999,}}
             position="top-center" reverseOrder={false} />
             <div className="min-h-screen">
-               <GlobalEventWatcher />
+              <GlobalEventWatcher />
               <Header />
               <Routes>
 
@@ -66,7 +63,7 @@ function App() {
                 <Route
                   path="/contact"
                   element={<Q_A_Components />} />
-                <Route path="/login" element={<LoginPage />} />
+                <Route path="/login" element={<Login___ />} />
                 <Route path="/enroll" element={<Enroll />} />
                 <Route path='/write' element={<Q_A_write />} />     
                 <Route path='/policy/privacy' element={<PrivacyPolicy />} />

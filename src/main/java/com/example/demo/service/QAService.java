@@ -1,5 +1,6 @@
 package com.example.demo.service;
 
+import com.example.demo.dto.QAResponse;
 import com.example.demo.entity.Member;
 import com.example.demo.entity.Q_A;
 import com.example.demo.exception.CustomException;
@@ -13,12 +14,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.beans.Transient;
+import java.util.Collections;
 import java.util.List;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @Service
 @RequiredArgsConstructor
+
 public class QAService {
     private final Q_ARepository Qarepository;
     private  final MemberRepository memberRepository;
@@ -35,17 +38,48 @@ public class QAService {
     public Q_A saveQA(String username, Q_A qa) {
 
 
-        //여기부분에 로그 로 확인하는법
-        Member member= memberRepository.findByUsername(username).orElseThrow(() -> new RuntimeException("해당 게시글이 없습니다."));
 
-        qa.setMember(member);
+        if ("익명".equals(username) || username == null) {
+            log.info("익명 사용자로 게시글을 저장합니다.");
+            qa.setMember(null); // 멤버 연결 없이 저장
+        } else {
+            Member member = memberRepository.findByUsername(username)
+                    .orElseThrow(() -> new RuntimeException("해당 회원이 없습니다: " + username));
+            qa.setMember(member);
+            log.info("회원 ID {} 와 연결하여 저장합니다.", member.getId());
+        }
+
         return Qarepository.save(qa);
     }
-
     //3. 모든 폼을 제공해줘
 
-    public  List<Q_A> ALlForm_data(){
-        return Qarepository.findByIsPrivateFalse();
+    public  List<QAResponse> ALlForm_data(){
+        List<Q_A> list=Qarepository.findByIsPrivateFalseWithMember();
+        // 1. 리스트가 비어있으면 바로 빈 리스트 반환 (방어 코드)
+        if (list == null || list.isEmpty()) {
+            return Collections.emptyList();
+
+
+
+        }
+
+        log.info("current list = {}", list);
+
+
+         return list.stream().map(qa -> new QAResponse(
+                qa.getId(),
+                qa.getTitle(),
+                qa.getContent(),
+                qa.getCategory(),
+                qa.isPrivate(),
+                qa.getAnswer(),
+                qa.getAnswerState(),
+                qa.getCreatedDate(), // 생성자 순서에 맞춤
+                qa.getMember() != null ? qa.getMember().getName() : "익명",
+                qa.getMember() != null ? qa.getMember().getId() : null
+        )).toList();
+
+
     }
 
     public boolean adminUpdate (Long id, String content){
@@ -88,6 +122,18 @@ public class QAService {
     public List<Q_A> Send_is_Not_answer_state(){
         List<Q_A> qaList = Qarepository.findByAnswerStateFalse();
         return qaList;
+    }
+
+
+
+    @Transactional
+    public void markAsReadByAdmin(Long id) {
+        // 해당 ID의 글이 있는지 먼저 확인 (안전장치)
+        if (Qarepository.existsById(id)) {
+            Qarepository.updateAdminReadStatus(id);
+        } else {
+            throw new RuntimeException("해당 게시글이 존재하지 않습니다. ID: " + id);
+        }
     }
 
 }

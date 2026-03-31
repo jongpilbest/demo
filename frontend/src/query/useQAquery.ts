@@ -1,7 +1,7 @@
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import {
   fetctGetQAList, fetchPostQA, fetctAllnonPrivateGetQAList, Answer_QA_Admin, Delete_QA_Admin,
-  fetchAdminIsnotanswerSTate, FetchEnroll_User
+  fetchAdminIsnotanswerSTate, FetchEnroll_User,GetCheckAdminQaList
 } from "@/api/qa.ts";
 import { useAlert } from "@/UseHook/useAlert";
 import{ type User_infomation} from "@/type/Qa/User";
@@ -42,7 +42,7 @@ export function useCreateQAQuery() {
   return useMutation({
     mutationFn: fetchPostQA,
     onSuccess: () => {
-      qc.invalidateQueries({ queryKey: QA_LIST_KEY });
+      qc.invalidateQueries({ queryKey: QA_NOT_PRIVATE_KEY });
       success('게시글이 생성되었습니다! ');
     },
   });
@@ -102,6 +102,28 @@ export function useEnrollMutation() {
     onError: () => {
       error("회원가입에 실패했습니다. 다시 시도해주세요.");
     }
+  });
+}
+
+export function useAdminCheckMutation() {
+  const queryClient = useQueryClient();
+  const { success, error } = useAlert();
+
+  return useMutation({
+    // 1. 실행할 비동기 함수
+    mutationFn: (id: number) => GetCheckAdminQaList(id),
+    // 2. 성공 시 로직
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: QA_NOT_PRIVATE_KEY });
+      queryClient.invalidateQueries({ queryKey: QA_ADMIN_NOT_ANSWERED_KEY });
+      success("관리자가 해당 게시물을 확인했습니다..");
+    },
+
+    // 3. 실패 시 로직
+    onError: (err: any) => {
+      console.error("Admin Check Error:", err);
+      error("상태 업데이트 중 오류가 발생했습니다.");
+    },
   });
 }
 

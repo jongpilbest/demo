@@ -13,7 +13,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class Q_A {
+public class Q_A extends BaseTimeEntity  {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -35,9 +35,13 @@ public class Q_A {
     private String company;
     private String email;
 
+    @Builder.Default
+    private boolean isAdminRead = false;
+
+
     @JsonIgnore  // 추가 - 순환참조 차단
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "member_id")
+    @JoinColumn(name = "member_id",nullable=true)
     private Member member;
 
 

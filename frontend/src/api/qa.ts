@@ -72,3 +72,14 @@ export async function fetchAdminIsnotanswerSTate():Promise<QAItem[]>{
   const res= await api.get('/api/form/IsnotAnswerstate')
   return res.data.data;
 }
+
+
+
+/// 관리자가 새로운 답변이 달린 문의글을 확인할때
+
+export async function GetCheckAdminQaList(id: number):Promise<QAItem[]>{
+  const res= await api.get(`/api/form/Admin_check_qa_list?id=${id}`)
+  
+  // invaildate 어저구 요청하기  QA_ADMIN_NOT_ANSWERED_KEY
+  return res.data;
+}

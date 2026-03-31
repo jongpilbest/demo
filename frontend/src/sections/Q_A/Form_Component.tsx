@@ -40,9 +40,10 @@ export default function Form_Same_Component({ data, text, Create_answer_state, g
         <div className="col-span-1">No</div>
         <div className="col-span-2"></div>
         <div className="col-span-2">문의유형</div>
-        <div className="col-span-3">제목</div>
+        <div className="col-span-4">제목</div>
+       <div className="col-span-1">문의자</div>
 
-        <div className="col-span-2 text-right">작성일</div>
+        <div className="col-span-1 text-right">작성일</div>
       </div>
       {data.length === 0 && (
         <div className="flex flex-col items-center justify-center py-32 px-4 rounded-xl border-2 border-dashed border-gray-200 bg-gray-50/30">

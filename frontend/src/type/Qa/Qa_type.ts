@@ -6,6 +6,10 @@ export type QAItem = {
   is_private: boolean;
   answer: string;
   answerState:boolean;
+  adminRead:boolean;
+  createdDate: string;
+  username:string;      
+
   
 };
 
