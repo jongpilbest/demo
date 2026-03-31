@@ -46,7 +46,7 @@ const sendMessage = async (text: string) => {
     try {
 
       setStatus("ready");
-      const response = await fetch("http://localhost:8085/api/chat/chatting", {
+      const response = await fetch("http://backend:8085/api/chat/chatting", {
         method: "POST",
         headers: {
           // 우리가 직접 통제하므로 중복 헤더(415 에러)가 절대 발생하지 않습니다!
