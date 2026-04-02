@@ -11,6 +11,7 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseBodyEmitter
 import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 
 import java.io.IOException;
+import java.time.Duration;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import com.example.demo.dto.AccessTokenResponse;
@@ -171,7 +172,8 @@ public class ChatController {
                         "    - 도입 문의: 적용 현장 파악 질문 → 적합한 구성 제안 → 상담 연결")
                 .user(userText)
                 .stream()
-                .content() // Flux<String> 형태로 글자가 올 때마다 즉시 반환
-                .map(chunk -> "0:" + JSONObject.quote(chunk) + "\n");
+                .content()
+                .bufferTimeout(10, Duration.ofMillis(50))  // 10글자 또는 50ms마다
+                .map(chunks -> "0:" + JSONObject.quote(String.join("", chunks)) + "\n");
     }
 }
