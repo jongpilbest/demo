@@ -3,8 +3,7 @@ import logo from '/assets/logo_crop.svg'
 import React, { useState, useRef, useEffect } from "react";
 import { useChat } from "@ai-sdk/react";
 import { DefaultChatTransport } from "ai";
-import { Bot, ChevronLeft } from "lucide-react";
-
+import { Bot, ChevronLeft ,Loader2 } from "lucide-react";
 
 
 const Chatbot: React.FC = () => {
@@ -61,7 +60,7 @@ const sendMessage = async (text: string) => {
 
       
       if (!response.body) throw new Error("스트리밍을 지원하지 않는 브라우저입니다.");
-
+      setStatus("streaming");
       // 3. 스트림 데이터를 실시간으로 불러오기 위해서, 읽기 전용 빨대가 필요합니다.
       const reader = response.body.getReader();
       // 기계어를 사람의 언어로 번역해주는 번역기 입니다.
@@ -231,6 +230,9 @@ const sendMessage = async (text: string) => {
 
         {/* ── 메시지 영역 ── */}
         <div className="flex-1 overflow-y-auto bg-slate-50 px-4 py-4 flex flex-col gap-3">
+
+
+
           {/* 웰컴 메시지 */}
           {messages.length === 0 && (
             <div className="flex flex-col items-center justify-center h-full gap-4 text-center pb-4">
@@ -332,6 +334,17 @@ const sendMessage = async (text: string) => {
               </div>
             </div>
           )}
+
+          {status === "ready" && (
+  <div className="flex gap-2 items-center">
+    <div className="w-7 h-7 flex-shrink-0 rounded-lg bg-[#1a2a4a] flex items-center justify-center">
+      <Loader2 className="w-4 h-4 text-white animate-spin" />
+    </div>
+    <div className="bg-white border border-slate-100 shadow-sm px-4 py-3 rounded-2xl rounded-tl-sm">
+      <span className="text-xs text-slate-400">답변 생성 중...</span>
+    </div>
+  </div>
+)}
 
           <div ref={bottomRef} />
         </div>
