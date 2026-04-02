@@ -47,7 +47,7 @@ public class ChatController {
 
 
 
-    @Value("${spring.ai.openai.api-key}")
+  
 
 
     private final ExecutorService executor = Executors.newSingleThreadExecutor();
