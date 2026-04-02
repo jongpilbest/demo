@@ -4,7 +4,6 @@ import React, { useState, useRef, useEffect } from "react";
 import { useChat } from "@ai-sdk/react";
 import { DefaultChatTransport } from "ai";
 import { Bot, ChevronLeft } from "lucide-react";
-import { api } from '@/api/client';
 
 
 
@@ -47,21 +46,24 @@ const sendMessage = async (text: string) => {
     try {
 
       setStatus("ready");
-      const response = await api.post("/api/chat/chatting", {
-    // Axios는 객체를 넘기면 자동으로 JSON으로 변환하고 
-    // Content-Type도 application/json으로 설정해줍니다.
-    messages: [{ content: text }] 
-  }, {
-    // 필요한 경우에만 헤더 추가 (보통 axios 인스턴스에 공통 설정되어 있음)
-    headers: {
-      "Content-Type": "application/json",
-    }
-});
+      const response = await fetch("/api/chat/chatting", {
+        method: "POST",
+        headers: {
+          // 우리가 직접 통제하므로 중복 헤더(415 에러)가 절대 발생하지 않습니다!
+          "Content-Type": "application/json", 
+        },
+        // 백엔드 ChatRequestDto 형태에 맞춰서 대충이라도 쏴줘야 400 에러가 안 납니다.
+        body: JSON.stringify({
+          messages: [{ content: text }] 
+        }),
+      });
+      
 
-      if (!response.data) throw new Error("스트리밍을 지원하지 않는 브라우저입니다.");
+      
+      if (!response.body) throw new Error("스트리밍을 지원하지 않는 브라우저입니다.");
 
       // 3. 스트림 데이터를 실시간으로 불러오기 위해서, 읽기 전용 빨대가 필요합니다.
-      const reader = response.data.getReader();
+      const reader = response.body.getReader();
       // 기계어를 사람의 언어로 번역해주는 번역기 입니다.
       const decoder = new TextDecoder("utf-8");
 
