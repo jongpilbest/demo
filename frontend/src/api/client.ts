@@ -2,7 +2,7 @@ import axios from "axios";
 
 // 환경 변수(VITE_API_BASE_URL)를 사용하거나, 직접 IP를 적어줍니다.
 export const api = axios.create({
-  baseURL: "", // 예시: "http://localhost:8085" 또는 "http://backend:8085"
+  baseURL: "http://localhost:8085", // 예시: "http://localhost:8085" 또는 "http://backend:8085"
   withCredentials: true,
 });
 
@@ -39,8 +39,8 @@ api.interceptors.response.use(
 
       try {
         // refresh 시도
-        const { data } = await axios.post(
-          "http://backend:8085/api/members/refresh",
+        const { data } = await api.post(
+          "api/members/refresh",
           {},
           { withCredentials: true }
         );

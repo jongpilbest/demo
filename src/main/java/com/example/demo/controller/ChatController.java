@@ -1,7 +1,10 @@
 package com.example.demo.controller;
 
 import com.example.demo.dto.ChatRequestDto;
+import jakarta.annotation.PostConstruct;
+
 import org.json.JSONObject;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseBodyEmitter;
@@ -41,6 +44,11 @@ import org.springframework.ai.chat.client.ChatClient;
 @RestController
 @RequestMapping("/api/chat")
 public class ChatController {
+
+
+
+    @Value("${spring.ai.openai.api-key}")
+
 
     private final ExecutorService executor = Executors.newSingleThreadExecutor();
     private final ChatClient chatClient;
