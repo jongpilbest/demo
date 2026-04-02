@@ -79,7 +79,7 @@ const sendMessage = async (text: string) => {
      
         // 백엔드에서 온 '0:"안"\n0:"녕"\n' 형태를 줄바꿈 기준으로 쪼갭니다.
         const lines = chunk.split('\n');
-        console.log(lines,' 확인')
+ 
         
         for (const line of lines) {
           if (line.includes('0:')) {
@@ -89,7 +89,7 @@ const sendMessage = async (text: string) => {
              if (jsonStr) {
       // 3. JSON.parse를 통해 따옴표를 제거하고 순수 텍스트 "아"만 추출
              const textChunk = JSON.parse(jsonStr);
-                  console.log("파싱 성공:", textChunk); // 확인용
+                
               setMessages((prev) => {
         const newMessages = [...prev];
         const lastIndex = newMessages.length - 1;
@@ -121,7 +121,6 @@ const sendMessage = async (text: string) => {
     }
   };
 
-  console.log(messages)
 
 
 
