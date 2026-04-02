@@ -47,8 +47,8 @@ export default function Header() {
     <header
       ref={menuRef}
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300  
-          bg-white
-
+   
+  bg-white
         px-10
         ${isScrolled
           ? 'bg-white/95 backdrop-blur-md shadow-sm'
@@ -57,7 +57,7 @@ export default function Header() {
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-1 md:px-6 ">
         <div className="flex 
-          bg-white
+       
         items-center justify-between h-16 lg:h-19">
           {/* Logo */}
           <a href="/" className="flex items-center gap-2">
@@ -170,9 +170,12 @@ export default function Header() {
 
         
 
+
+      </div>
+      
 {/* Mobile Menu */}
 {isMobileMenuOpen && (
-  <div className="lg:hidden bg-white border-t border-gray-100 py-4 shadow-lg">
+  <div className="lg:hiddenborder-t border-gray-100 py-4 shadow-lg">
     <nav className="flex flex-col gap-2 px-4">
       <Button 
         variant="ghost" 
@@ -236,8 +239,6 @@ export default function Header() {
   </div>
 )}
 
-
-      </div>
     </header>
   );
 }

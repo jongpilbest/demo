@@ -7,6 +7,7 @@ import com.example.demo.entity.Q_A;
 import com.example.demo.exception.MemberNotFoundException;
 import com.example.demo.jwt.JwtProvider;
 import com.example.demo.repository.MemberRepository;
+import com.example.demo.service.MailService;
 import com.example.demo.service.QAService;
 import com.example.demo.jwt.JwtProvider;
 import jakarta.persistence.Id;
@@ -31,7 +32,7 @@ public class QAController {
 
    private final QAService qaService;
    private final JwtProvider jwtProvider;
-
+    private final MailService mailService;
 
 
     @GetMapping("/All_qa_list")
@@ -101,6 +102,9 @@ public class QAController {
             qaService.saveQA(username, qA);
         }
 
+
+
+       // mailService.sendAutoReply(qA.getEmail());
         return ResponseEntity
                 .status(HttpStatus.CREATED)
                 .body(Map.of("status", "success"));

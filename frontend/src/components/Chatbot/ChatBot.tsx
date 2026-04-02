@@ -1,17 +1,17 @@
 "use client";
 import logo from '/assets/logo_crop.svg'
 import React, { useState, useRef, useEffect } from "react";
-import { useChat } from "@ai-sdk/react";
-import { DefaultChatTransport } from "ai";
+
 import { Bot, ChevronLeft ,Loader2 } from "lucide-react";
+import { sendChatMessage } from './Chatbot_Hook';
 
-
+import Markdown from 'react-markdown'
 const Chatbot: React.FC = () => {
 
 
 const [open, setOpen] = useState(false);
-
-
+ const bottomRef = useRef<HTMLDivElement>(null);
+  const accumulatedRef = useRef("");
    // 밑에 하단바 메세지 를 입력하세요 usestate 
   const [input, setInput] = useState("");
    const[status,setStatus]=useState("");
@@ -25,7 +25,7 @@ const [open, setOpen] = useState(false);
   const [isTyping, setIsTyping] = useState(false);
 
 
-  const bottomRef = useRef<HTMLDivElement>(null);
+ 
 
 
 const sendMessage = async (text: string) => {
@@ -33,93 +33,19 @@ const sendMessage = async (text: string) => {
 
     // 1. 유저가 질문한 내역을 message 상태에 추가합니다.
     setMessages((prev) => [...prev, { role: "user", content: text }]);
-
     // 기존의 메세지를 빈text으로 변환합니다. 
     setInput("");
     // api 호출을 기다리고 있습니다. 
     setIsTyping(true);
-
     // 2. 봇 응답이 담길 "빈 말풍선"을 미리 하나 만들어 둡니다.
     setMessages((prev) => [...prev, { role: "assistant", content: "" }]);
 
-    try {
-
-      setStatus("ready");
-      const response = await fetch("/api/chat/chatting", {
-        method: "POST",
-        headers: {
-          // 우리가 직접 통제하므로 중복 헤더(415 에러)가 절대 발생하지 않습니다!
-          "Content-Type": "application/json", 
-        },
-        // 백엔드 ChatRequestDto 형태에 맞춰서 대충이라도 쏴줘야 400 에러가 안 납니다.
-        body: JSON.stringify({
-          messages: [{ content: text }] 
-        }),
-      });
-      
-
-      
-      if (!response.body) throw new Error("스트리밍을 지원하지 않는 브라우저입니다.");
-      setStatus("streaming");
-      // 3. 스트림 데이터를 실시간으로 불러오기 위해서, 읽기 전용 빨대가 필요합니다.
-      const reader = response.body.getReader();
-      // 기계어를 사람의 언어로 번역해주는 번역기 입니다.
-      const decoder = new TextDecoder("utf-8");
-
-
-      while (true) {
-
-        // 
-        const { done, value } = await reader.read();
-        if (done) break;
-
-        // 청크(조각) 데이터를 텍스트로 변환
-        const chunk = decoder.decode(value, { stream: true });
-     
-        // 백엔드에서 온 '0:"안"\n0:"녕"\n' 형태를 줄바꿈 기준으로 쪼갭니다.
-        const lines = chunk.split('\n');
- 
-        
-        for (const line of lines) {
-          if (line.includes('0:')) {
-            try {
-            const jsonStart = line.indexOf('0:') + 2;
-            const jsonStr = line.substring(jsonStart).trim();
-             if (jsonStr) {
-      // 3. JSON.parse를 통해 따옴표를 제거하고 순수 텍스트 "아"만 추출
-             const textChunk = JSON.parse(jsonStr);
-                
-              setMessages((prev) => {
-        const newMessages = [...prev];
-        const lastIndex = newMessages.length - 1;
-        if (lastIndex >= 0 && newMessages[lastIndex].role === "assistant") {
-          newMessages[lastIndex] = {
-            ...newMessages[lastIndex],
-            content: newMessages[lastIndex].content + textChunk
-          };
-        }return newMessages;
-      });
-            } 
-        }
-            
-            catch (e) {
-              // 파싱 중 발생하는 자잘한 에러는 무시
-            }
-          }
-
-        }
-   
-
-    }
-     setStatus("");
-
-    } catch (error) {
-      console.error("통신 에러:", error);
-    } finally {
-     // setIsTyping(false); // 스트리밍이 끝나면 타이핑 상태 해제
-    }
-  };
-
+  try {
+    await sendChatMessage(text, accumulatedRef, setMessages, setStatus);
+  } catch (error) {
+    console.error("통신 에러:", error);
+  }
+};
 
 
 
@@ -248,9 +174,9 @@ const sendMessage = async (text: string) => {
               <div className='flex gap-3  flex-col w-full my-4'>
 
        {[
-                "서비스 소개가 궁금해요",
-                "데모 신청은 어떻게 하나요?",
-                "센서 연동이 가능한가요?",
+                "건설현장에 계측 시스템을 도입하려는데, 어떻게 시작하면 되나요?",
+                "지하 굴착 현장처럼 음영 구간이 많은 곳에서도 통신이 잘 되나요?",
+                "현장에 기존 계측기가 있는데, 플랫폼에 그대로 연결할 수 있나요?",
               ].map((q) => (
                 <button
                   key={q}
@@ -260,7 +186,9 @@ const sendMessage = async (text: string) => {
                   className="
                   
           
-                  w-full text-left px-4 py-2.5 rounded-xl border border-slate-200 bg-white text-xs text-slate-600 hover:border-[#F97316] hover:text-[#F97316] transition-colors"
+                  w-full text-left px-4 py-2.5 
+                 
+                  rounded-xl border border-slate-200 bg-white text-xs text-slate-600 hover:border-[#F97316] hover:text-[#F97316] transition-colors"
                 >
                   {q}
                 </button>
@@ -278,9 +206,9 @@ const sendMessage = async (text: string) => {
           
           
           */}
-          {  messages.map((message) => (
+          {  messages.map((message,id) => (
             <div
-              key={message.id}
+              key={id+"chatmessage"}
               className={`flex gap-2 ${message.role === "user" ? "flex-row-reverse" : "flex-row"}`}
             >
          
@@ -304,7 +232,27 @@ const sendMessage = async (text: string) => {
                   }
                 `}
               >
-                {message.content}
+
+
+
+            {status === "ready" && message.role === "assistant"&& message.content === ""&& (
+            <div className="flex gap-2 items-end">
+             
+             
+                {[0, 1, 2].map((i) => (
+                  <span
+                    key={i}
+                    className="w-1.5 h-1.5 rounded-full bg-[#F97316] animate-bounce"
+                    style={{ animationDelay: `${i * 0.15}s` }}
+                  />
+                ))}
+
+            </div>
+          )}
+
+
+          
+              <Markdown>{message.content}</Markdown>
               </div>
             </div>
           ))
@@ -313,39 +261,9 @@ const sendMessage = async (text: string) => {
           }
 
           {/* 타이핑 인디케이터 */}
-          {status === "streaming" && (
-            <div className="flex gap-2 items-end">
-              <div className="w-7 h-7 flex-shrink-0 rounded-lg bg-[#1a2a4a] flex items-center justify-center">
-                <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
-                  <rect x="1" y="1" width="5" height="5" rx="1" fill="#F97316" />
-                  <rect x="8" y="1" width="5" height="5" rx="1" fill="#F97316" opacity="0.5" />
-                  <rect x="1" y="8" width="5" height="5" rx="1" fill="#F97316" opacity="0.5" />
-                  <rect x="8" y="8" width="5" height="5" rx="1" fill="#F97316" opacity="0.25" />
-                </svg>
-              </div>
-              <div className="bg-white border border-slate-100 shadow-sm px-4 py-3 rounded-2xl rounded-tl-sm flex gap-1.5 items-center">
-                {[0, 1, 2].map((i) => (
-                  <span
-                    key={i}
-                    className="w-1.5 h-1.5 rounded-full bg-[#F97316] animate-bounce"
-                    style={{ animationDelay: `${i * 0.15}s` }}
-                  />
-                ))}
-              </div>
-            </div>
-          )}
+         
 
-          {status === "ready" && (
-  <div className="flex gap-2 items-center">
-    <div className="w-7 h-7 flex-shrink-0 rounded-lg bg-[#1a2a4a] flex items-center justify-center">
-      <Loader2 className="w-4 h-4 text-white animate-spin" />
-    </div>
-    <div className="bg-white border border-slate-100 shadow-sm px-4 py-3 rounded-2xl rounded-tl-sm">
-      <span className="text-xs text-slate-400">답변 생성 중...</span>
-    </div>
-  </div>
-)}
-
+        
           <div ref={bottomRef} />
         </div>
 
