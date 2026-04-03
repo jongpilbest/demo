@@ -6,6 +6,13 @@ import { Bot, ChevronLeft ,Loader2 } from "lucide-react";
 import { sendChatMessage } from './Chatbot_Hook';
 
 import Markdown from 'react-markdown'
+
+function isValidQuestion(value:string) {
+  if (!/\S{5,}/.test(value.replace(/\s+/g, ''))) return false;
+  return true;
+}
+
+
 const Chatbot: React.FC = () => {
 
 
@@ -27,10 +34,8 @@ const [open, setOpen] = useState(false);
 
  
 
-
 const sendMessage = async (text: string) => {
     
-
     // 1. 유저가 질문한 내역을 message 상태에 추가합니다.
     setMessages((prev) => [...prev, { role: "user", content: text }]);
     // 기존의 메세지를 빈text으로 변환합니다. 
@@ -39,6 +44,25 @@ const sendMessage = async (text: string) => {
     setIsTyping(true);
     // 2. 봇 응답이 담길 "빈 말풍선"을 미리 하나 만들어 둡니다.
     setMessages((prev) => [...prev, { role: "assistant", content: "" }]);
+
+
+   //여기 정규식 넣어서 , 그 공백이나, 그거면 체크 다시 하는걸로 만들기
+    if(isValidQuestion(text) == false){
+           setMessages((prev) => {
+              const newMessages = [...prev];
+              const lastIndex = newMessages.length - 1;
+              if (lastIndex >= 0 && newMessages[lastIndex].role === "assistant") {
+                newMessages[lastIndex] = {
+                  ...newMessages[lastIndex],
+                  content: "질문을 정확히 입력하세요 ",
+                };
+              }
+              return newMessages;
+            });
+
+      return;
+    }
+    
 
   try {
     await sendChatMessage(text, accumulatedRef, setMessages, setStatus);
