@@ -40,7 +40,9 @@ export default memo(function FormComponent({ item }: Props) {
   const [isEditMode, setIsEditMode] = useState(false);
   const { mutate: adminCheck } = useAdminCheckMutation();
 
+ console.log(item,'확인좀')
 
+ 
   const check_is_amdin_check = useCallback((id: number) => {
   // 1. 아코디언이나 모달 열기/닫기
   setIsOpen((open) => !open);
@@ -48,7 +50,7 @@ export default memo(function FormComponent({ item }: Props) {
 
   // 2. 관리자 권한이 있고(canAdmin), 아직 읽지 않은 상태(!item.isAdminRead)일 때만 실행
   // * 조건문은 프로젝트 로직에 맞게 조정하세요 (보통 관리자일 때만 API를 쏩니다)
-
+ 
   if (canAdmin && !item.adminRead) {
     try {
       adminCheck(id);
@@ -80,15 +82,15 @@ export default memo(function FormComponent({ item }: Props) {
           <div>
                   <StatusBadge 
   status={item.answerState} 
-  trueLabel="답변완료" 
-  falseLabel="답변대기" 
+  trueLabel="관리자 답변완료" 
+  falseLabel="관리자 답변대기" 
 />
           </div>
            <div>
     <StatusBadge 
   status={item.adminRead} 
-  trueLabel="관리자확인" 
-  falseLabel="답변대기" 
+  trueLabel="관리자 열람" 
+  falseLabel="관리자 열람대기" 
 />
             </div>
 

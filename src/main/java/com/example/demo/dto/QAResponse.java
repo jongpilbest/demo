@@ -20,8 +20,15 @@ public class QAResponse {
     private LocalDateTime createdDate;
     private String username;
     private Long userId;
+    private Boolean adminRead;
 
-    public QAResponse(Long id, String title, String content, String category, boolean aPrivate, String answer, Boolean answerState, String createDate, LocalDateTime createdDate) {
+
+    public QAResponse(Long id, String title, String content, String category, boolean aPrivate, String answer, Boolean answerState,
+
+                      String createDate, LocalDateTime createdDate
+    ,Boolean adminRead
+
+    ) {
 
     }
 }

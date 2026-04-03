@@ -41,8 +41,12 @@ export default function Q_A_Components() {
 
         <Form_Same_Component
           key={"QA"}
+          groupId="전체문의+비밀글이아님"
           Create_answer_state={userRole === "ADMIN" ? false : true}
-          data={data} ></Form_Same_Component>
+          data={data} 
+          text={""}
+          
+          ></Form_Same_Component>
 
 
 

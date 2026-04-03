@@ -76,7 +76,7 @@ public class QAService {
                 qa.getAnswerState(),
                 qa.getCreatedDate(), // 생성자 순서에 맞춤
                 qa.getMember() != null ? qa.getMember().getName() : "익명",
-                qa.getMember() != null ? qa.getMember().getId() : null
+                qa.getMember() != null ? qa.getMember().getId() : null, qa.isAdminRead()
         )).toList();
 
 
